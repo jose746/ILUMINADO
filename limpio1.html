@@ -1,0 +1,571 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>BOY  J 7</title>
+  <!-- Bootstrap CSS desde CDN -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css">
+
+<!-- jQuery desde CDN -->
+<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+
+<!-- model-viewer desde CDN -->
+<script type="module" src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"></script>
+
+
+  <!-- Fuente Inter -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700&display=swap" rel="stylesheet">
+
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
+
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            bgdark: '#0d0d1a',
+            accent: '#a0a0ff',
+          },
+         /* fontFamily: {
+            inter: ['Inter', 'system-ui', 'sans-serif']
+          },*/
+        }
+      }
+    }
+  </script>
+
+  <style>
+   /*========================================================================================*/
+/* Estilos Base para Escritorio (Mobile-first) */
+/*========================================================================================*/
+html, body {
+  height: 100%; 
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden; /* Evita el scroll horizontal */
+}
+
+body { 
+  color: #ffffff;
+  font-family: 'Orbitron', system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, 'Helvetica Neue', Arial, 'Noto Sans', sans-serif;
+
+  background: linear-gradient(to bottom, #000000, #000000, #000000, #000000, #00de4e);
+}
+
+/* Contenedor de partículas fijo y full-screen */
+#particle-stage {
+  position: fixed; 
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+  z-index: 0;
+}
+.particle {
+  position: absolute;
+  width: 7px;
+  height: 7px;
+  border-radius: 9999px;
+  background: #00c43b;
+  opacity: .8;
+  will-change: transform; 
+}
+
+/* Capas de contenido por encima */
+.panel { 
+  position: relative; 
+  z-index: 10; 
+}
+
+/* Sutil grano de fondo para profundidad */
+.grain:before {
+  content: ""; 
+  position: fixed; 
+  inset: -50px; 
+  z-index: 1; 
+  pointer-events: none;
+  background-image: radial-gradient(rgba(255, 3, 3, 0.451) 1px, transparent 1px);
+  background-size: 3px 3px; 
+  opacity: .3; 
+  mix-blend-mode: overlay;
+  animation: drift 3s linear infinite;
+}
+@keyframes drift { 
+  to { transform: translate3d(50px, 50px, 0); } 
+}
+
+/* Tipografías y acentos */
+.title-gradient {
+  background: linear-gradient(90deg, #ffffff, #f2f2f2, #0ee182);
+  -webkit-background-clip: text;
+  background-clip: text; 
+  color: transparent; 
+}
+.card-blur { 
+  
+  
+        box-shadow: 0 8px 20px rgba(6, 217, 97, 0.857);
+ backdrop-filter: blur(3px);
+  background: rgba(0, 234, 90, 0.38);
+  border: 1px solid rgb(0, 255, 145); 
+}
+.px-4 {
+    border-radius: 5px;
+}
+
+
+
+/*========================================================================================*/
+/* Media Queries */
+/*========================================================================================*/
+
+/* Estilos para móviles pequeños (360px y menos) */
+@media (max-width: 360px) {
+  .particle {
+    width: 3px;
+    height: 3px;
+  }
+
+  body {
+    font-size: 14px;
+  }
+}
+
+/* Estilos para móviles y tablets pequeños (de 361px a 480px) */
+@media (min-width: 361px) and (max-width: 480px) {
+  .particle {
+    width: 4px;
+    height: 4px;
+  }
+  
+  body {
+    font-size: 15px;
+  }
+}
+
+/* Estilos para tablets (de 481px a 768px) */
+@media (min-width: 481px) and (max-width: 768px) {
+  .particle {
+    width: 5px;
+    height: 5px;
+  }
+  
+  body {
+    font-size: 16px;
+  }
+}
+
+/* Estilos para escritorios y pantallas más grandes (de 769px en adelante) */
+@media (min-width: 769px) {
+  .particle {
+    width: 7px;
+    height: 7px;
+  }
+  
+  body {
+    font-size: 18px;
+  }
+}
+
+
+@media (max-width: 768px) {
+  /* En pantallas de 768px o menos, establece la altura mínima a un valor más manejable */
+  body.grain {
+    min-height: 200vh; /* Por ejemplo, 2 veces el alto de la ventana */
+  }
+}
+
+/* O, si prefieres, puedes usar min-h-screen para que no haya scroll extra */
+@media (max-width: 768px) {
+  body.grain {
+    min-height: 100vh;
+  }
+}
+
+
+.REGRESAR {
+            cursor: pointer;
+            border: solid 2px rgb(226, 226, 226);
+border-radius: 30px;
+            margin-bottom: 20px;
+            padding: 20px;
+            text-align: center;
+            color: #e2dfdf;
+            background-color: #000000;
+
+        }
+.REGRESAR:hover {
+    border: solid 2px rgb(7, 245, 58);
+    transition: all 0.7s ease-in-out;
+    background-color: #dedede;
+    color: #000000;
+}
+  </style>
+</head>
+
+<body class="grain min-h-[500vh] font-inter selection:bg-accent/20 selection:text-white">
+  <!-- Escenario de partículas -->
+  <div id="particle-stage"></div>
+
+  <!-- Contenido -->
+  <main class="relative z-10">
+
+    <!-- Sección 1: Bienvenida -->
+    <section id="s0" class="panel h-screen grid place-items-center px-6">
+      <div class="max-w-5xl text-center">
+        <h1 class="text-5xl md:text-7xl font-extrabold title-gradient">BIENVENIDO</h1>
+        <p class="mt-6 text-lg md:text-2xl text-white/80">disfruta la vista   Sigue bajando para ver</p>
+        <div class="mt-10 inline-flex gap-3">
+          <span class="px-4 py-2 rounded-full card-blur">inteligencia </span>
+          <span class="px-4 py-2 rounded-full card-blur">velocidad</span>
+          <span class="px-4 py-2 rounded-full card-blur">calidad</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- Sección 2: Uniendo fuerzas (Triángulo) -->
+    <section id="s1" class="panel h-screen grid place-items-center px-6">
+      <div class="max-w-4xl text-center">
+        <h2 class="text-4xl md:text-6xl font-bold">ESTOY ILUMINADO</h2>
+        <p class="mt-4 text-white/80 text-lg md:text-xl">ILUMINADO BOY J7</p>
+      </div>
+    </section>
+
+    <!-- Sección 3: Dispersión -->
+    <section id="s2" class="panel h-screen grid place-items-center px-6">
+      <div class="max-w-4xl text-center">
+        <h2 class="text-4xl md:text-6xl font-bold">La dispersión</h2>
+        <p class="mt-4 text-white/80 text-lg md:text-xl">esto es infinito .</p>
+      </div>
+    </section>
+
+    <!-- Sección 4: Triángulo otra vez -->
+    <section id="s3" class="panel h-screen grid place-items-center px-6">
+      <div class="max-w-4xl text-center">
+        <h2 class="text-4xl md:text-6xl font-bold">el  Triángulo</h2>
+        <p class="mt-4 text-white/80 text-lg md:text-xl">Una segunda llamada al equilibrio geométrico.</p>
+      </div>
+    </section>
+
+    <!-- Sección 5: J7 -->
+    <section id="s4" class="panel h-screen grid place-items-center px-6">
+      <div class="max-w-4xl text-center">
+        <h2 class="text-4xl md:text-6xl font-extrabold">Formando J7</h2>
+        <p class="mt-4 text-white/80 text-lg md:text-xl">boy <span class="font-black">J 7</span>. </p>
+      </div>
+    </section>
+
+    <!-- Contenido extra dinámico (mucho contenido) -->
+    <section class="panel h-screen grid place-items-center px-6">
+      <div class="max-w-6xl w-full grid md:grid-cols-3 gap-6">
+        <div class="card-blur p-6 rounded-2xl" data-reveal>
+          <h3 class="text-2xl font-bold mb-2">Energía colectiva</h3>
+          <p class="text-white/80">La suma de pequeñas fuerzas crea estructuras mayores. Microinteracciones que construyen macroformas.</p>
+        </div>
+        <div class="card-blur p-6 rounded-2xl" data-reveal>
+          <h3 class="text-2xl font-bold mb-2">Geometría viva</h3>
+          <p class="text-white/80">Figuras que laten y respiran con el desplazamiento..</p>
+        </div>
+        <div class="card-blur p-6 rounded-2xl" data-reveal>
+          <h3 class="text-2xl font-bold mb-2">Sistemas complejos</h3>
+          <p class="text-white/80">Del caos al orden y vuelta. Reglas simples, resultados emergentes.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="panel h-screen grid place-items-center px-6">
+      <div class="max-w-6xl w-full grid md:grid-cols-2 gap-6">
+        <div class="card-blur p-8 rounded-2xl" data-reveal>
+          <h3 class="text-3xl font-bold">EMOCIONANATE</h3>
+          <p class="mt-3 text-white/80">Animaciones con propósito: cada transición guía la mirada y refuerza la narrativa visual.</p>
+          <ul class="mt-4 list-disc list-inside text-white/70 space-y-1">
+            <li>Timing orgánico (Sine/Power easings)</li>
+            <li>Microtransiciones coherentes</li>
+            <li>Jerarquías claras</li>
+          </ul>
+        </div>
+        <div class="card-blur p-8 rounded-2xl" data-reveal>
+          <h3 class="text-3xl font-bold">BUENA VIDA </h3>
+          <p class="mt-3 text-white/80">aprobecha cada momento de la vida es unico </p>
+          <div class="mt-4 grid grid-cols-3 gap-3 text-center">
+            <div class="p-4 rounded-xl bg-white/5">ayer</div>
+            <div class="p-4 rounded-xl bg-white/5">hoy</div>
+            <div class="p-4 rounded-xl bg-white/5">mañana</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="panel h-screen grid place-items-center px-6">
+      <div class="max-w-5xl text-center" data-reveal>
+        <h3 class="text-5xl md:text-6xl font-extrabold title-gradient">Gracias por llegar hasta aquí</h3>
+        <p class="mt-5 text-lg md:text-2xl text-white/80">tendras suerte infinito en todo  att. ILUMINADO</p>
+      </div>
+    </section>
+
+  </main>
+  <a href="principal.html">
+    <button class="REGRESAR">REGRESAR</button>
+</a>
+
+  <!-- GSAP + ScrollTrigger -->
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js"></script>
+
+  <script>
+  (function(){
+    gsap.registerPlugin(ScrollTrigger);
+
+    const COUNT = 1000;
+    const jitterRadius = 20; // px
+    const stage = document.getElementById('particle-stage');
+    const particles = [];
+
+    // Estados
+    let baseTargets = []; // posiciones base actuales [{x,y}]
+    let triangleTargets = [];
+    let textTargets = [];
+    let disperseTargets = [];
+    let currentState = 'disperse'; // 'disperse' | 'triangle' | 'text'
+
+    // Crear partículas
+    function createParticles(){
+      stage.innerHTML = '';
+      particles.length = 0;
+      const frag = document.createDocumentFragment();
+      for (let i=0;i<COUNT;i++){
+        const d = document.createElement('div');
+        d.className = 'particle';
+        frag.appendChild(d);
+        particles.push(d);
+      }
+      stage.appendChild(frag);
+    }
+
+    // Helpers viewport
+    function vw(){ return window.innerWidth; }
+    function vh(){ return window.innerHeight; }
+
+    // Random posiciones dispersas
+    function getDispersePositions(){
+      const out = [];
+      for (let i=0;i<COUNT;i++){
+        out.push({ x: Math.random()*vw(), y: Math.random()*vh() });
+      }
+      return out;
+    }
+
+    // Triángulo equilátero centrado
+    function getTrianglePositions(){
+      const w = vw();
+      const h = vh();
+      const size = Math.min(w, h) * 0.65; // lado del triángulo
+      const cx = w/2, cy = h/2;
+      const hTri = size * Math.sqrt(3)/2;
+      const A = { x: cx, y: cy - (2/3)*hTri }; // vértice superior
+      const B = { x: cx - size/2, y: cy + hTri/3 };
+      const C = { x: cx + size/2, y: cy + hTri/3 };
+
+      // Distribución uniforme mediante coordenadas baricéntricas aleatorias
+      const pts = [];
+      for (let i=0;i<COUNT;i++){
+        let u = Math.random();
+        let v = Math.random();
+        if (u + v > 1){ u = 1 - u; v = 1 - v; }
+        const x = A.x + u*(B.x - A.x) + v*(C.x - A.x);
+        const y = A.y + u*(B.y - A.y) + v*(C.y - A.y);
+        pts.push({x,y});
+      }
+      return pts;
+    }
+
+    // Texto "J7" usando canvas para muestrear puntos
+    function getTextPositions(){
+      const w = vw();
+      const h = vh();
+      const canvas = document.createElement('canvas');
+      const ctx = canvas.getContext('2d', { willReadFrequently: true });
+      const padding = Math.round(Math.min(w,h)*0.08);
+      const cw = Math.min(w - padding*2, Math.round(Math.min(w,h)*0.9));
+      const ch = Math.min(h - padding*2, Math.round(Math.min(w,h)*0.55));
+      canvas.width = cw;
+      canvas.height = ch;
+
+      // Fondo transparente y texto blanco
+      ctx.clearRect(0,0,cw,ch);
+      const fontSize = Math.floor(ch * 0.9);
+      ctx.fillStyle = 'white';
+      ctx.textAlign = 'center';
+      ctx.textBaseline = 'middle';
+      ctx.font = `bold ${fontSize}px Inter, sans-serif`;
+      ctx.fillText('J7', cw/2, ch/2);
+
+      const img = ctx.getImageData(0,0,cw,ch).data;
+      const pts = [];
+      const stride = Math.max(1, Math.floor(Math.sqrt((cw*ch)/COUNT))); // malla adaptativa
+      for (let y=0; y<ch; y+=stride){
+        for (let x=0; x<cw; x+=stride){
+          const idx = (y*cw + x) * 4;
+          const alpha = img[idx+3];
+          if (alpha > 128){
+            // centro del pixel a coordenadas de viewport
+            const vx = (w - cw)/2 + x + (Math.random()*stride - stride/2);
+            const vy = (h - ch)/2 + y + (Math.random()*stride - stride/2);
+            pts.push({x:vx, y:vy});
+          }
+        }
+      }
+      // Si hay menos puntos que partículas, duplica aleatorio; si hay más, muestrea
+      if (pts.length < COUNT){
+        const out = [];
+        for (let i=0;i<COUNT;i++){
+          out.push( pts[ Math.floor(Math.random()*pts.length) ] );
+        }
+        return out;
+      } else if (pts.length > COUNT){
+        // muestreo uniforme
+        const ratio = pts.length / COUNT;
+        const out = [];
+        for (let i=0;i<COUNT;i++){
+          out.push( pts[ Math.floor(i*ratio) ] );
+        }
+        return out;
+      }
+      return pts;
+    }
+
+    // Utilidad para animar a un set de posiciones
+    function animateTo(positions, { duration=1.4, ease='power3.inOut', pauseJitter=false } = {}){
+      baseTargets = positions;
+      if (pauseJitter) jitterTween.pause(); else jitterTween.resume();
+      gsap.to(particles, {
+        duration,
+        ease,
+        x: (i)=> positions[i % positions.length].x,
+        y: (i)=> positions[i % positions.length].y,
+        stagger: { each: 0.0008, from: 'random' },
+        overwrite: true,
+      });
+    }
+
+    // Posiciones iniciales + jitter
+    let jitterTween;
+    function makeJitter(){
+      if (jitterTween) jitterTween.kill();
+      jitterTween = gsap.to(particles, {
+        duration: 1.6,
+        x: (i,t)=> (baseTargets[i]?.x ?? t._gsap?.x ?? Math.random()*vw()) + (Math.random()*2*jitterRadius - jitterRadius),
+        y: (i,t)=> (baseTargets[i]?.y ?? t._gsap?.y ?? Math.random()*vh()) + (Math.random()*2*jitterRadius - jitterRadius),
+        ease: 'sine.inOut',
+        repeat: -1,
+        yoyo: true,
+        repeatRefresh: true,
+        stagger: { amount: 0.8, from: 'random' },
+        paused: false,
+        overwrite: false,
+      });
+    }
+
+    // Revelaciones de tarjetas/textos
+    function setupReveals(){
+      gsap.utils.toArray('[data-reveal]').forEach((el)=>{
+        gsap.from(el, {
+          y: 40,
+          opacity: 0,
+          duration: 1,
+          ease: 'power3.out',
+          scrollTrigger: {
+            trigger: el,
+            start: 'top 80%',
+            toggleActions: 'play none none reverse'
+          }
+        });
+      });
+      // Hero text
+      gsap.from('#s0 h1', { y: 30, opacity: 0, duration: 1.2, ease: 'power3.out' });
+      gsap.from('#s0 p', { y: 20, opacity: 0, duration: 1, delay: .2, ease: 'power3.out' });
+      gsap.from('#s0 div.inline-flex', { y: 10, opacity: 0, duration: .9, delay: .35, ease: 'power3.out' });
+    }
+
+    // Scroll scenes para formas
+    function setupScenes(){
+      // s1: Triángulo (pausa jitter)
+      ScrollTrigger.create({
+        trigger: '#s1', start: 'top center', end: 'bottom center',
+        onEnter: ()=>{ currentState = 'triangle'; animateTo(triangleTargets, { pauseJitter: true }); },
+        onEnterBack: ()=>{ currentState = 'triangle'; animateTo(triangleTargets, { pauseJitter: true }); },
+      });
+      // s2: Dispersión (reactiva jitter)
+      ScrollTrigger.create({
+        trigger: '#s2', start: 'top center', end: 'bottom center',
+        onEnter: ()=>{ currentState = 'disperse'; animateTo(disperseTargets, { pauseJitter: false, duration: 1.2 }); },
+        onEnterBack: ()=>{ currentState = 'disperse'; animateTo(disperseTargets, { pauseJitter: false, duration: 1.2 }); },
+      });
+      // s3: Triángulo otra vez (pausa jitter)
+      ScrollTrigger.create({
+        trigger: '#s3', start: 'top center', end: 'bottom center',
+        onEnter: ()=>{ currentState = 'triangle'; animateTo(triangleTargets, { pauseJitter: true }); },
+        onEnterBack: ()=>{ currentState = 'triangle'; animateTo(triangleTargets, { pauseJitter: true }); },
+      });
+      // s4: J7 (reactiva jitter luego de formar el texto)
+      ScrollTrigger.create({
+        trigger: '#s4', start: 'top center', end: 'bottom center',
+        onEnter: ()=>{ currentState = 'text'; animateTo(textTargets, { pauseJitter: false, duration: 1.4 }); },
+        onEnterBack: ()=>{ currentState = 'text'; animateTo(textTargets, { pauseJitter: false, duration: 1.4 }); },
+      });
+    }
+
+    // Recalcular todo al redimensionar manteniendo el estado
+    function recalc(){
+      triangleTargets = getTrianglePositions();
+      textTargets = getTextPositions();
+      disperseTargets = getDispersePositions();
+      // Alinear baseTargets al estado actual sin salto
+      if (currentState === 'triangle'){
+        animateTo(triangleTargets, { duration: .5, pauseJitter: true });
+      } else if (currentState === 'text'){
+        animateTo(textTargets, { duration: .5, pauseJitter: false });
+      } else {
+        animateTo(disperseTargets, { duration: .5, pauseJitter: false });
+      }
+      ScrollTrigger.refresh();
+    }
+
+    // Init
+    function init(){
+      createParticles();
+      disperseTargets = getDispersePositions();
+      triangleTargets = getTrianglePositions();
+      textTargets = getTextPositions();
+
+      // Posición inicial (dispersa) + jitter activo
+      baseTargets = disperseTargets;
+      gsap.set(particles, { x:(i)=>disperseTargets[i].x, y:(i)=>disperseTargets[i].y });
+      makeJitter();
+
+      setupReveals();
+      setupScenes();
+
+      // Resize optimizado
+      let resizeTO;
+      window.addEventListener('resize', ()=>{
+        clearTimeout(resizeTO);
+        resizeTO = setTimeout(recalc, 120);
+      });
+    }
+
+    // Comenzar
+    init();
+
+  })();
+  fontFamily: {
+  orbitron: ['Orbitron', 'system-ui', 'sans-serif']
+}
+
+  </script>
+</body>
+</html>

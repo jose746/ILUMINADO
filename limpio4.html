@@ -1,0 +1,1217 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>La Sinfonía Química de la Mente y el Cuerpo</title>
+    <!-- Bootstrap CSS desde CDN -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css">
+
+<!-- jQuery desde CDN -->
+<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+
+<!-- model-viewer desde CDN -->
+<script type="module" src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"></script>
+
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* Variables CSS para colores y efectos */
+        :root {
+            --primary-bg: #0a0a0f;
+            --secondary-bg: #1a1a2e;
+            --accent-cyan: #00ffff;
+            --accent-purple: #8a2be2;
+            --text-primary: #ffffff;
+            --text-secondary: #b0b0b0;
+            --glow-cyan: 0 0 20px rgba(0, 255, 255, 0.5);
+            --glow-purple: 0 0 20px rgba(138, 43, 226, 0.5);
+            --border-radius: 15px;
+            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        /* Reset y estilos base */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, var(--primary-bg) 0%, var(--secondary-bg) 100%);
+            color: var(--text-primary);
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        /* Contenedor principal */
+        .app-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 20px;
+            position: relative;
+        }
+
+        /* Navegación */
+        .nav-container {
+            position: fixed;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 1000;
+            background: rgba(26, 26, 46, 0.9);
+            backdrop-filter: blur(10px);
+            border-radius: var(--border-radius);
+            padding: 10px;
+            border: 1px solid rgba(0, 255, 255, 0.3);
+        }
+
+        .nav-buttons {
+            display: flex;
+            gap: 10px;
+        }
+
+        .nav-btn {
+            padding: 10px 20px;
+            background: transparent;
+            border: 1px solid var(--accent-cyan);
+            color: var(--text-primary);
+            border-radius: 10px;
+            cursor: pointer;
+            transition: var(--transition);
+            font-family: 'Inter', sans-serif;
+            font-weight: 500;
+        }
+
+        .nav-btn:hover, .nav-btn.active {
+            background: var(--accent-cyan);
+            color: var(--primary-bg);
+            box-shadow: var(--glow-cyan);
+            transform: translateY(-2px);
+        }
+
+        /* Secciones principales */
+        .section {
+            display: none;
+            min-height: 100vh;
+            padding-top: 100px;
+            animation: fadeIn 0.8s ease-out;
+        }
+
+        .section.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Introducción */
+        .intro-section {
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            min-height: 90vh;
+        }
+
+        .title-main {
+            font-size: 3.5rem;
+            font-weight: 700;
+            background: linear-gradient(45deg, var(--accent-cyan), var(--accent-purple));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 20px;
+            text-shadow: 0 0 30px rgba(0, 255, 255, 0.3);
+        }
+
+        .subtitle {
+            font-size: 1.3rem;
+            color: var(--text-secondary);
+            max-width: 800px;
+            margin-bottom: 40px;
+            line-height: 1.6;
+        }
+
+        .cta-button {
+            padding: 15px 40px;
+            background: linear-gradient(45deg, var(--accent-cyan), var(--accent-purple));
+            border: none;
+            border-radius: var(--border-radius);
+            color: var(--primary-bg);
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            box-shadow: 0 10px 30px rgba(0, 255, 255, 0.3);
+        }
+
+        .cta-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 40px rgba(0, 255, 255, 0.5);
+        }
+
+        /* Sección del cerebro */
+        .brain-section {
+            text-align: center;
+        }
+
+        .section-title {
+            font-size: 2.5rem;
+            font-weight: 600;
+            color: var(--accent-cyan);
+            margin-bottom: 30px;
+            text-shadow: var(--glow-cyan);
+        }
+
+        .brain-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 40px;
+            margin-bottom: 50px;
+        }
+
+        .brain-svg {
+            width: 400px;
+            height: 300px;
+            transition: var(--transition);
+            filter: drop-shadow(0 0 20px rgba(0, 255, 255, 0.3));
+        }
+
+        .brain-svg.active {
+            transform: scale(1.05);
+        }
+
+        /* Botones de neurotransmisores */
+        .neurotransmitter-buttons {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+
+        .neuro-btn {
+            padding: 15px 25px;
+            background: rgba(26, 26, 46, 0.8);
+            border: 2px solid var(--accent-purple);
+            border-radius: var(--border-radius);
+            color: var(--text-primary);
+            cursor: pointer;
+            transition: var(--transition);
+            font-family: 'Inter', sans-serif;
+            font-weight: 500;
+        }
+
+        .neuro-btn:hover, .neuro-btn.active {
+            background: var(--accent-purple);
+            box-shadow: var(--glow-purple);
+            transform: translateY(-2px);
+        }
+
+        /* Panel de información */
+        .info-panel {
+            background: rgba(26, 26, 46, 0.9);
+            border-radius: var(--border-radius);
+            padding: 30px;
+            margin: 30px 0;
+            border: 1px solid var(--accent-cyan);
+            backdrop-filter: blur(10px);
+            min-height: 200px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .info-content {
+            text-align: left;
+            line-height: 1.8;
+        }
+
+        .info-title {
+            font-size: 1.8rem;
+            color: var(--accent-cyan);
+            margin-bottom: 15px;
+            font-weight: 600;
+        }
+
+        /* Sección del cuerpo */
+        .body-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 40px;
+        }
+
+        .body-svg {
+            width: 300px;
+            height: 500px;
+            transition: var(--transition);
+            filter: drop-shadow(0 0 20px rgba(138, 43, 226, 0.3));
+        }
+
+        .body-svg.active {
+            transform: scale(1.05);
+        }
+
+        /* Botones de hormonas */
+        .hormone-buttons {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+
+        .hormone-btn {
+            padding: 12px 20px;
+            background: rgba(26, 26, 46, 0.8);
+            border: 2px solid var(--accent-cyan);
+            border-radius: var(--border-radius);
+            color: var(--text-primary);
+            cursor: pointer;
+            transition: var(--transition);
+            font-family: 'Inter', sans-serif;
+            font-weight: 500;
+            font-size: 0.9rem;
+        }
+
+        .hormone-btn:hover, .hormone-btn.active {
+            background: var(--accent-cyan);
+            color: var(--primary-bg);
+            box-shadow: var(--glow-cyan);
+            transform: translateY(-2px);
+        }
+
+        /* Sección de reflexiones */
+        .reflection-section {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 50px 20px;
+        }
+
+        .reflection-content {
+            background: rgba(26, 26, 46, 0.6);
+            border-radius: var(--border-radius);
+            padding: 50px;
+            border: 1px solid var(--accent-purple);
+            backdrop-filter: blur(10px);
+        }
+
+        .reflection-text {
+            font-size: 1.2rem;
+            line-height: 1.8;
+            color: var(--text-secondary);
+            text-align: justify;
+        }
+
+        .highlight {
+            color: var(--accent-cyan);
+            font-weight: 600;
+        }
+
+        /* Efectos de partículas de fondo */
+        .particles {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        .particle {
+            position: absolute;
+            width: 2px;
+            height: 2px;
+            background: var(--accent-cyan);
+            border-radius: 50%;
+            animation: float 6s infinite linear;
+        }
+
+        @keyframes float {
+            0% {
+                transform: translateY(100vh) translateX(0);
+                opacity: 0;
+            }
+            10% {
+                opacity: 1;
+            }
+            90% {
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(-100px) translateX(100px);
+                opacity: 0;
+            }
+        }
+
+                        /* 360px - Móviles pequeños */
+        @media (max-width: 360px) {
+            .app-container {
+                padding: 10px;
+            }
+            
+            .title-main {
+                font-size: 2rem;
+            }
+            
+            .subtitle {
+                font-size: 1rem;
+            }
+            
+            .nav-buttons {
+                flex-wrap: wrap;
+                gap: 5px;
+            }
+            
+            .nav-btn {
+                padding: 8px 12px;
+                font-size: 0.8rem;
+            }
+            
+            .brain-svg {
+                width: 280px;
+                height: 200px;
+            }
+            
+            .body-svg {
+                width: 200px;
+                height: 350px;
+            }
+            
+            .neurotransmitter-buttons,
+            .hormone-buttons {
+                grid-template-columns: 1fr;
+                gap: 10px;
+            }
+            
+            .info-panel {
+                padding: 20px;
+            }
+            
+            .section-title {
+                font-size: 1.8rem;
+            }
+        }
+
+        /* 480px - Móviles */
+        @media (max-width: 480px) and (min-width: 361px) {
+            .title-main {
+                font-size: 2.5rem;
+            }
+            
+            .subtitle {
+                font-size: 1.1rem;
+            }
+            
+            .brain-svg {
+                width: 320px;
+                height: 240px;
+            }
+            
+            .body-svg {
+                width: 240px;
+                height: 400px;
+            }
+            
+            .neurotransmitter-buttons {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .hormone-buttons {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .nav-btn {
+                padding: 8px 15px;
+                font-size: 0.9rem;
+            }
+        }
+
+        /* 768px - Tablets */
+        @media (max-width: 768px) and (min-width: 481px) {
+            .brain-container {
+                flex-direction: row;
+                align-items: flex-start;
+            }
+            
+            .brain-svg {
+                width: 350px;
+                height: 260px;
+            }
+            
+            .body-svg {
+                width: 280px;
+                height: 450px;
+            }
+            
+            .neurotransmitter-buttons {
+                grid-template-columns: repeat(3, 1fr);
+            }
+            
+            .hormone-buttons {
+                grid-template-columns: repeat(3, 1fr);
+            }
+            
+            .reflection-content {
+                padding: 40px;
+            }
+        }
+
+        /* 1200px - Escritorio */
+        @media (min-width: 1200px) {
+            .brain-container {
+                flex-direction: row;
+                justify-content: space-around;
+                align-items: flex-start;
+            }
+            
+            .brain-info-container {
+                flex: 1;
+                max-width: 600px;
+            }
+            
+            .body-container {
+                flex-direction: row;
+                justify-content: space-around;
+                align-items: flex-start;
+            }
+            
+            .body-info-container {
+                flex: 1;
+                max-width: 600px;
+            }
+            
+            .neurotransmitter-buttons {
+                grid-template-columns: repeat(3, 1fr);
+            }
+            
+            .hormone-buttons {
+                grid-template-columns: repeat(3, 1fr);
+            }
+        }
+
+        /* Animaciones adicionales */
+        .pulse {
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+
+        .glow-effect {
+            filter: drop-shadow(0 0 20px currentColor);
+        }
+        .REGRESAR {
+            cursor: pointer;
+            border: solid 2px rgb(226, 226, 226);
+border-radius: 30px;
+            margin-bottom: 20px;
+            padding: 20px;
+            text-align: center;
+            color: #e2dfdf;
+            background-color: #000000;
+
+        }
+.REGRESAR:hover {
+    border: solid 2px rgb(219, 12, 98);
+    transition: all 0.7s ease-in-out;
+    background-color: #dedede;
+    color: #000000;
+}
+
+
+
+
+    </style>
+</head>
+<body>
+    <!-- Efectos de partículas de fondo -->
+    <div class="particles" id="particles"></div>
+
+    <!-- Navegación -->
+    <div class="nav-container">
+        <div class="nav-buttons">
+            <button class="nav-btn active" data-section="intro">Inicio</button>
+            <button class="nav-btn" data-section="brain">Cerebro</button>
+            <button class="nav-btn" data-section="body">Cuerpo</button>
+            <button class="nav-btn" data-section="reflection">Reflexiones</button>
+        </div>
+    </div>
+
+    <div class="app-container">
+        <!-- Sección de Introducción -->
+        <section class="section active" id="intro">
+            <div class="intro-section">
+                <h1 class="title-main">La Sinfonía Química de la Mente y el Cuerpo</h1>
+                <p class="subtitle">
+                    Explora el fascinante mundo de los ligandos: neurotransmisores, neuropéptidos y hormonas que orquestan cada pensamiento, emoción y función corporal. Descubre cómo estas moléculas microscópicas crean la sinfonía de tu experiencia consciente.
+                </p>
+                <button class="cta-button" onclick="navigateToSection('brain')">
+                    Comenzar Exploración
+                </button>
+            </div>
+        </section>
+
+        <!-- Sección del Cerebro -->
+        <section class="section" id="brain">
+            <h2 class="section-title">El Epicentro: El Cerebro</h2>
+            <div class="brain-container">
+                <div class="brain-visual">
+                    <svg class="brain-svg" id="brainSvg" viewBox="0 0 400 300" xmlns="http://www.w3.org/2000/svg">
+                        <defs>
+                            <linearGradient id="brainGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                                <stop offset="0%" style="stop-color:#00ffff;stop-opacity:0.8" />
+                                <stop offset="100%" style="stop-color:#8a2be2;stop-opacity:0.8" />
+                            </linearGradient>
+                            <filter id="glow">
+                                <feGaussianBlur stdDeviation="3" result="coloredBlur"/>
+                                <feMerge> 
+                                    <feMergeNode in="coloredBlur"/>
+                                    <feMergeNode in="SourceGraphic"/> 
+                                </feMerge>
+                            </filter>
+                        </defs>
+                        
+                        <!-- Cerebro principal -->
+                        <path d="M 80 150 Q 50 100 100 80 Q 150 60 200 80 Q 250 60 300 80 Q 350 100 320 150 Q 350 200 300 220 Q 250 240 200 220 Q 150 240 100 220 Q 50 200 80 150 Z" 
+                              fill="url(#brainGradient)" 
+                              stroke="#00ffff" 
+                              stroke-width="2" 
+                              filter="url(#glow)" 
+                              class="brain-main"/>
+                        
+                        <!-- Lóbulos cerebrales -->
+                        <circle cx="120" cy="120" r="25" fill="rgba(0,255,255,0.3)" class="brain-region frontal"/>
+                        <circle cx="200" cy="110" r="20" fill="rgba(138,43,226,0.3)" class="brain-region parietal"/>
+                        <circle cx="280" cy="130" r="22" fill="rgba(0,255,255,0.3)" class="brain-region temporal"/>
+                        <circle cx="300" cy="180" r="18" fill="rgba(138,43,226,0.3)" class="brain-region occipital"/>
+                        
+                        <!-- Conexiones neuronales -->
+                        <path d="M 120 120 Q 160 100 200 110" stroke="#00ffff" stroke-width="1" fill="none" opacity="0.6"/>
+                        <path d="M 200 110 Q 240 115 280 130" stroke="#8a2be2" stroke-width="1" fill="none" opacity="0.6"/>
+                        <path d="M 280 130 Q 290 155 300 180" stroke="#00ffff" stroke-width="1" fill="none" opacity="0.6"/>
+                    </svg>
+                </div>
+                
+                <div class="brain-info-container">
+                    <div class="neurotransmitter-buttons">
+                        <button class="neuro-btn" data-neuro="dopamina">Dopamina</button>
+                        <button class="neuro-btn" data-neuro="serotonina">Serotonina</button>
+                        <button class="neuro-btn" data-neuro="acetilcolina">Acetilcolina</button>
+                        <button class="neuro-btn" data-neuro="noradrenalina">Noradrenalina</button>
+                        <button class="neuro-btn" data-neuro="gaba">GABA</button>
+                        <button class="neuro-btn" data-neuro="glutamato">Glutamato</button>
+                    </div>
+                    
+                    <div class="info-panel">
+                        <div class="info-content" id="neuroInfo">
+                            <h3 class="info-title">Selecciona un Neurotransmisor</h3>
+                            <p>Haz clic en cualquiera de los neurotransmisores para descubrir cómo influye en tu cerebro y comportamiento. Observa cómo el cerebro reacciona visualmente a cada selección.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Sección del Cuerpo -->
+        <section class="section" id="body">
+            <h2 class="section-title">El Escenario Completo: El Cuerpo Humano</h2>
+            <div class="body-container">
+                <div class="body-image" id="bodyImage">
+                    <svg class="body-svg" id="bodySvg" viewBox="0 0 300 500" xmlns="http://www.w3.org/2000/svg">
+                        <defs>
+                            <linearGradient id="bodyGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                                <stop offset="0%" style="stop-color:#8a2be2;stop-opacity:0.8" />
+                                <stop offset="100%" style="stop-color:#00ffff;stop-opacity:0.8" />
+                            </linearGradient>
+                            <filter id="bodyGlow">
+                                <feGaussianBlur stdDeviation="3" result="coloredBlur"/>
+                                <feMerge> 
+                                    <feMergeNode in="coloredBlur"/>
+                                    <feMergeNode in="SourceGraphic"/> 
+                                </feMerge>
+                            </filter>
+                            <radialGradient id="organGradient" cx="50%" cy="50%" r="50%">
+                                <stop offset="0%" style="stop-color:#ffffff;stop-opacity:0.8"/>
+                                <stop offset="100%" style="stop-color:#8a2be2;stop-opacity:0.4"/>
+                            </radialGradient>
+                        </defs>
+                        
+                        <!-- Cabeza -->
+                        <ellipse cx="150" cy="50" rx="40" ry="50" fill="url(#bodyGradient)" 
+                                stroke="#8a2be2" stroke-width="2" filter="url(#bodyGlow)" class="body-region head"/>
+                        
+                        <!-- Cuello -->
+                        <rect x="130" y="95" width="40" height="30" fill="url(#bodyGradient)" 
+                              stroke="#8a2be2" stroke-width="2" class="body-region neck"/>
+                        
+                        <!-- Torso principal -->
+                        <ellipse cx="150" cy="200" rx="70" ry="100" fill="url(#bodyGradient)" 
+                                stroke="#8a2be2" stroke-width="2" filter="url(#bodyGlow)" class="body-region torso"/>
+                        
+                        <!-- Corazón -->
+                        <path d="M 130 180 C 130 170, 145 170, 150 185 C 155 170, 170 170, 170 180 C 170 190, 150 210, 150 210 C 150 210, 130 190, 130 180 Z" 
+                              fill="rgba(255, 107, 107, 0.6)" stroke="#ff6b6b" stroke-width="2" class="body-organ heart"/>
+                        
+                        <!-- Pulmones -->
+                        <ellipse cx="120" cy="190" rx="15" ry="25" fill="rgba(135, 206, 235, 0.5)" 
+                                stroke="#87ceeb" stroke-width="1" class="body-organ lungs"/>
+                        <ellipse cx="180" cy="190" rx="15" ry="25" fill="rgba(135, 206, 235, 0.5)" 
+                                stroke="#87ceeb" stroke-width="1" class="body-organ lungs"/>
+                        
+                        <!-- Hígado -->
+                        <ellipse cx="170" cy="230" rx="25" ry="20" fill="rgba(139, 69, 19, 0.6)" 
+                                stroke="#8b4513" stroke-width="2" class="body-organ liver"/>
+                        
+                        <!-- Estómago -->
+                        <ellipse cx="130" cy="240" rx="20" ry="30" fill="rgba(255, 192, 203, 0.5)" 
+                                stroke="#ffc0cb" stroke-width="2" class="body-organ stomach"/>
+                        
+                        <!-- Riñones -->
+                        <ellipse cx="110" cy="260" rx="8" ry="15" fill="rgba(128, 0, 128, 0.6)" 
+                                stroke="#800080" stroke-width="1" class="body-organ kidneys"/>
+                        <ellipse cx="190" cy="260" rx="8" ry="15" fill="rgba(128, 0, 128, 0.6)" 
+                                stroke="#800080" stroke-width="1" class="body-organ kidneys"/>
+                        
+                        <!-- Páncreas -->
+                        <rect x="140" y="250" width="30" height="8" rx="4" fill="rgba(255, 165, 0, 0.6)" 
+                              stroke="#ffa500" stroke-width="1" class="body-organ pancreas"/>
+                        
+                        <!-- Glándulas suprarrenales -->
+                        <circle cx="108" cy="250" r="4" fill="rgba(255, 255, 0, 0.7)" 
+                               stroke="#ffff00" stroke-width="1" class="body-organ adrenals"/>
+                        <circle cx="192" cy="250" r="4" fill="rgba(255, 255, 0, 0.7)" 
+                               stroke="#ffff00" stroke-width="1" class="body-organ adrenals"/>
+                        
+                        <!-- Tiroides -->
+                        <ellipse cx="150" cy="115" rx="12" ry="8" fill="rgba(0, 128, 128, 0.6)" 
+                                stroke="#008080" stroke-width="1" class="body-organ thyroid"/>
+                        
+                        <!-- Glándula pineal (en la cabeza) -->
+                        <circle cx="150" cy="40" r="3" fill="rgba(75, 0, 130, 0.8)" 
+                               stroke="#4b0082" stroke-width="1" class="body-organ pineal"/>
+                        
+                        <!-- Brazos -->
+                        <ellipse cx="90" cy="180" rx="20" ry="60" fill="url(#bodyGradient)" 
+                                stroke="#8a2be2" stroke-width="2" class="body-region arms"/>
+                        <ellipse cx="210" cy="180" rx="20" ry="60" fill="url(#bodyGradient)" 
+                                stroke="#8a2be2" stroke-width="2" class="body-region arms"/>
+                        
+                        <!-- Antebrazos -->
+                        <ellipse cx="90" cy="270" rx="15" ry="50" fill="url(#bodyGradient)" 
+                                stroke="#8a2be2" stroke-width="2" class="body-region forearms"/>
+                        <ellipse cx="210" cy="270" rx="15" ry="50" fill="url(#bodyGradient)" 
+                                stroke="#8a2be2" stroke-width="2" class="body-region forearms"/>
+                        
+                        <!-- Muslos -->
+                        <ellipse cx="130" cy="350" rx="25" ry="60" fill="url(#bodyGradient)" 
+                                stroke="#8a2be2" stroke-width="2" class="body-region thighs"/>
+                        <ellipse cx="170" cy="350" rx="25" ry="60" fill="url(#bodyGradient)" 
+                                stroke="#8a2be2" stroke-width="2" class="body-region thighs"/>
+                        
+                        <!-- Pantorrillas -->
+                        <ellipse cx="130" cy="440" rx="18" ry="50" fill="url(#bodyGradient)" 
+                                stroke="#8a2be2" stroke-width="2" class="body-region calves"/>
+                        <ellipse cx="170" cy="440" rx="18" ry="50" fill="url(#bodyGradient)" 
+                                stroke="#8a2be2" stroke-width="2" class="body-region calves"/>
+                        
+                        <!-- Sistema circulatorio simplificado -->
+                        <path d="M 150 185 Q 130 200 120 190 Q 110 200 130 240" stroke="#ff6b6b" 
+                              stroke-width="2" fill="none" opacity="0.4" class="circulatory"/>
+                        <path d="M 150 185 Q 170 200 180 190 Q 190 200 170 240" stroke="#ff6b6b" 
+                              stroke-width="2" fill="none" opacity="0.4" class="circulatory"/>
+                        <path d="M 150 185 L 150 250" stroke="#ff6b6b" 
+                              stroke-width="3" fill="none" opacity="0.5" class="circulatory"/>
+                        
+                        <!-- Sistema nervioso simplificado -->
+                        <path d="M 150 50 L 150 300" stroke="#00ffff" 
+                              stroke-width="2" fill="none" opacity="0.3" class="nervous-system"/>
+                        <path d="M 150 150 Q 120 160 90 180" stroke="#00ffff" 
+                              stroke-width="1" fill="none" opacity="0.3" class="nervous-system"/>
+                        <path d="M 150 150 Q 180 160 210 180" stroke="#00ffff" 
+                              stroke-width="1" fill="none" opacity="0.3" class="nervous-system"/>
+                    </svg>
+                </div>
+                
+                <div class="body-info-container">
+                    <div class="hormone-buttons">
+                        <button class="hormone-btn" data-hormone="insulina">Insulina</button>
+                        <button class="hormone-btn" data-hormone="oxitocina">Oxitocina</button>
+                        <button class="hormone-btn" data-hormone="endorfina">Endorfina</button>
+                        <button class="hormone-btn" data-hormone="cortisol">Cortisol</button>
+                        <button class="hormone-btn" data-hormone="adrenalina">Adrenalina</button>
+                        <button class="hormone-btn" data-hormone="melatonina">Melatonina</button>
+                    </div>
+                    
+                    <div class="info-panel">
+                        <div class="info-content" id="hormoneInfo">
+                            <h3 class="info-title">Selecciona una Hormona</h3>
+                            <p>Explora cómo las hormonas y neuropéptidos afectan diferentes sistemas de tu cuerpo. Cada una tiene un papel único en el mantenimiento de tu salud y bienestar.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Sección de Reflexiones -->
+        <section class="section" id="reflection">
+            <div class="reflection-section">
+                <h2 class="section-title">Reflexiones: Causa, Efecto y Consciencia</h2>
+                <div class="reflection-content">
+                    <p class="reflection-text">
+                        En este viaje a través de la <span class="highlight">sinfonía química</span> de nuestro ser, hemos descubierto que somos más que la suma de nuestras partes. Cada <span class="highlight">neurotransmisor</span>, cada <span class="highlight">hormona</span>, cada <span class="highlight">neuropéptido</span> actúa como un músico en una orquesta cósmica, creando la melodía de nuestra experiencia consciente.
+                    </p>
+                    <br>
+                    <p class="reflection-text">
+                        ¿Somos libres cuando nuestras decisiones están influenciadas por <span class="highlight">moléculas químicas</span>? ¿O encontramos la libertad en el entendimiento de estos procesos? La <span class="highlight">dopamina</span> nos impulsa hacia el placer y la recompensa, la <span class="highlight">serotonina</span> modula nuestro estado de ánimo, el <span class="highlight">cortisol</span> nos prepara para el estrés.
+                    </p>
+                    <br>
+                    <p class="reflection-text">
+                        Esta comprensión no diminuye la magia de ser humano, sino que la amplifica. Somos arquitectos conscientes de nuestra propia <span class="highlight">sinfonía química</span>, capaces de influir en estos procesos a través de nuestros pensamientos, acciones y decisiones. En la intersección entre la <span class="highlight">ciencia</span> y la <span class="highlight">consciencia</span>, encontramos no solo explicaciones, sino también el poder de transformación.
+                    </p>
+                </div>
+            </div>
+        </section>
+    </div>
+    <a href="principal.html">
+        <button class="REGRESAR">REGRESAR</button>
+    </a>
+    <script>
+        // Configuración y datos principales
+        const APP_DATA_KEY = 'sinfonia_quimica_data';
+        
+        // Datos de neurotransmisores almacenados en localStorage
+        const neurotransmitterData = {
+            dopamina: {
+                title: "Dopamina - El Neurotransmisor de la Recompensa",
+                content: "La dopamina es conocida como el 'químico del placer', pero su función va más allá. Regula la motivación, el aprendizaje y la búsqueda de recompensas. Niveles bajos se asocian con depresión y falta de motivación, mientras que niveles altos pueden relacionarse con comportamientos compulsivos. Es fundamental en el sistema de recompensa del cerebro y en la formación de hábitos.",
+                color: "#ff6b6b"
+            },
+            serotonina: {
+                title: "Serotonina - El Regulador del Estado de Ánimo",
+                content: "La serotonina influye profundamente en nuestro bienestar emocional, regulando el estado de ánimo, el sueño, el apetito y la digestión. Aproximadamente el 90% se produce en el intestino. Niveles bajos se asocian con depresión, ansiedad y trastornos del sueño. Su equilibrio es crucial para la sensación de felicidad y bienestar general.",
+                color: "#4ecdc4"
+            },
+            acetilcolina: {
+                title: "Acetilcolina - El Mensajero de la Atención",
+                content: "Primer neurotransmisor descubierto, la acetilcolina es esencial para la atención, el aprendizaje y la memoria. Activa el sistema nervioso parasimpático, promoviendo la calma y la digestión. También es crucial para el control muscular y la comunicación entre neuronas. Su déficit se relaciona con problemas de memoria y enfermedades neurodegenerativas.",
+                color: "#45b7d1"
+            },
+            noradrenalina: {
+                title: "Noradrenalina - El Activador de la Alerta",
+                content: "Actúa como neurotransmisor y hormona, preparando el cuerpo para la acción. Aumenta la frecuencia cardíaca, la presión arterial y los niveles de glucosa. Es fundamental en la respuesta de 'lucha o huida' y en el mantenimiento del estado de alerta. Su desequilibrio puede contribuir a trastornos de ansiedad y depresión.",
+                color: "#f39c12"
+            },
+            gaba: {
+                title: "GABA - El Tranquilizante Natural",
+                content: "El ácido gamma-aminobutírico (GABA) es el principal neurotransmisor inhibitorio del cerebro. Reduce la actividad neuronal, promoviendo la calma, la relajación y el sueño. Contrarresta la actividad excitatoria excesiva que puede llevar a ansiedad y estrés. Es el blanco de muchos medicamentos ansiolíticos y sedantes.",
+                color: "#9b59b6"
+            },
+            glutamato: {
+                title: "Glutamato - El Acelerador Cerebral",
+                content: "Es el neurotransmisor excitatorio más abundante en el cerebro, esencial para el aprendizaje, la memoria y el desarrollo neuronal. Facilita la comunicación rápida entre neuronas y la plasticidad sináptica. Sin embargo, niveles excesivos pueden ser neurotóxicos, contribuyendo a trastornos neurológicos y neurodegenerativos.",
+                color: "#e74c3c"
+            }
+        };
+
+        // Datos de hormonas almacenados en localStorage
+        const hormoneData = {
+            insulina: {
+                title: "Insulina - El Regulador Metabólico",
+                content: "Hormona pancreática que regula los niveles de glucosa en sangre, permitiendo que las células absorban azúcar para obtener energía. Su resistencia puede llevar a diabetes tipo 2. También influye en el almacenamiento de grasa y el metabolismo de proteínas, siendo crucial para el equilibrio energético del cuerpo.",
+                color: "#27ae60"
+            },
+            oxitocina: {
+                title: "Oxitocina - La Hormona del Amor",
+                content: "Conocida como la 'hormona del amor', la oxitocina fortalece los vínculos sociales, la empatía y la confianza. Se libera durante el parto, la lactancia y las interacciones sociales positivas. Reduce el estrés y la ansiedad, promueve comportamientos altruistas y facilita la formación de relaciones duraderas.",
+                color: "#e91e63"
+            },
+            endorfina: {
+                title: "Endorfina - El Analgésico Natural",
+                content: "Las endorfinas son opioides naturales del cuerpo que reducen el dolor y generan sensaciones de bienestar. Se liberan durante el ejercicio, la risa, el estrés y actividades placenteras. Son responsables del 'subidón del corredor' y ayudan a manejar el dolor físico y emocional de manera natural.",
+                color: "#ff9800"
+            },
+            cortisol: {
+                title: "Cortisol - La Hormona del Estrés",
+                content: "Producida por las glándulas suprarrenales, el cortisol regula la respuesta al estrés, el metabolismo y la inflamación. Niveles elevados crónicos pueden suprimir el sistema inmune, afectar la memoria y contribuir a problemas de salud. Es esencial para despertar y manejar situaciones de emergencia.",
+                color: "#795548"
+            },
+            adrenalina: {
+                title: "Adrenalina - El Combustible de la Acción",
+                content: "También conocida como epinefrina, se libera en situaciones de estrés o peligro. Aumenta la frecuencia cardíaca, dilata las pupilas, y libera glucosa para proporcionar energía inmediata. Prepara el cuerpo para la respuesta de 'lucha o huida', mejorando temporalmente la fuerza y la velocidad de reacción.",
+                color: "#f44336"
+            },
+            melatonina: {
+                title: "Melatonina - El Regulador del Sueño",
+                content: "Hormona producida por la glándula pineal que regula los ciclos de sueño-vigilia (ritmo circadiano). Se produce principalmente en oscuridad, indicando al cuerpo que es hora de dormir. También tiene propiedades antioxidantes y puede influir en el sistema inmune y el envejecimiento.",
+                color: "#673ab7"
+            }
+        };
+
+        // Clase principal de la aplicación
+        class SinfoniaQuimica {
+            constructor() {
+                this.currentSection = 'intro';
+                this.selectedNeurotransmitter = null;
+                this.selectedHormone = null;
+                this.init();
+            }
+
+            init() {
+                this.loadData();
+                this.setupEventListeners();
+                this.createParticles();
+                this.saveData();
+            }
+
+            // Cargar datos del localStorage
+            loadData() {
+                const savedData = JSON.parse(localStorage.getItem(APP_DATA_KEY) || '{}');
+                this.userData = {
+                    visitCount: (savedData.visitCount || 0) + 1,
+                    lastVisit: new Date().toISOString(),
+                    preferences: savedData.preferences || {},
+                    progress: savedData.progress || {}
+                };
+            }
+
+            // Guardar datos en localStorage
+            saveData() {
+                localStorage.setItem(APP_DATA_KEY, JSON.stringify(this.userData));
+            }
+
+            // Configurar event listeners
+            setupEventListeners() {
+                // Navegación principal
+                document.querySelectorAll('.nav-btn').forEach(btn => {
+                    btn.addEventListener('click', (e) => {
+                        const section = e.target.getAttribute('data-section');
+                        this.navigateToSection(section);
+                    });
+                });
+
+                // Botones de neurotransmisores
+                document.querySelectorAll('.neuro-btn').forEach(btn => {
+                    btn.addEventListener('click', (e) => {
+                        const neuro = e.target.getAttribute('data-neuro');
+                        this.selectNeurotransmitter(neuro);
+                    });
+                });
+
+                // Botones de hormonas
+                document.querySelectorAll('.hormone-btn').forEach(btn => {
+                    btn.addEventListener('click', (e) => {
+                        const hormone = e.target.getAttribute('data-hormone');
+                        this.selectHormone(hormone);
+                    });
+                });
+
+                // Botón CTA
+                document.querySelector('.cta-button').addEventListener('click', () => {
+                    this.navigateToSection('brain');
+                });
+            }
+
+            // Navegación entre secciones
+            navigateToSection(sectionName) {
+                // Actualizar sección activa
+                document.querySelectorAll('.section').forEach(section => {
+                    section.classList.remove('active');
+                });
+                document.getElementById(sectionName).classList.add('active');
+
+                // Actualizar navegación
+                document.querySelectorAll('.nav-btn').forEach(btn => {
+                    btn.classList.remove('active');
+                });
+                document.querySelector(`[data-section="${sectionName}"]`).classList.add('active');
+
+                this.currentSection = sectionName;
+                
+                // Guardar progreso
+                this.userData.progress[sectionName] = new Date().toISOString();
+                this.saveData();
+
+                // Efectos especiales por sección
+                this.applySectionEffects(sectionName);
+            }
+
+            // Efectos especiales por sección
+            applySectionEffects(sectionName) {
+                const particles = document.getElementById('particles');
+                
+                switch(sectionName) {
+                    case 'brain':
+                        this.updateParticleColor('#00ffff');
+                        break;
+                    case 'body':
+                        this.updateParticleColor('#8a2be2');
+                        break;
+                    case 'reflection':
+                        this.updateParticleColor('#ffffff');
+                        break;
+                    default:
+                        this.updateParticleColor('#00ffff');
+                }
+            }
+
+            // Seleccionar neurotransmisor
+            selectNeurotransmitter(neuro) {
+                // Actualizar botones
+                document.querySelectorAll('.neuro-btn').forEach(btn => {
+                    btn.classList.remove('active');
+                });
+                document.querySelector(`[data-neuro="${neuro}"]`).classList.add('active');
+
+                // Actualizar información
+                const data = neurotransmitterData[neuro];
+                const infoContent = document.getElementById('neuroInfo');
+                infoContent.innerHTML = `
+                    <h3 class="info-title">${data.title}</h3>
+                    <p>${data.content}</p>
+                `;
+
+                // Efecto visual en el cerebro
+                this.animateBrain(data.color);
+                
+                this.selectedNeurotransmitter = neuro;
+                
+                // Guardar selección
+                this.userData.preferences.lastNeurotransmitter = neuro;
+                this.saveData();
+            }
+
+            // Seleccionar hormona
+            selectHormone(hormone) {
+                // Actualizar botones
+                document.querySelectorAll('.hormone-btn').forEach(btn => {
+                    btn.classList.remove('active');
+                });
+                document.querySelector(`[data-hormone="${hormone}"]`).classList.add('active');
+
+                // Actualizar información
+                const data = hormoneData[hormone];
+                const infoContent = document.getElementById('hormoneInfo');
+                infoContent.innerHTML = `
+                    <h3 class="info-title">${data.title}</h3>
+                    <p>${data.content}</p>
+                `;
+
+                // Efecto visual en el cuerpo
+                this.animateBody(data.color);
+                
+                this.selectedHormone = hormone;
+                
+                // Guardar selección
+                this.userData.preferences.lastHormone = hormone;
+                this.saveData();
+            }
+
+            // Animar cerebro
+            animateBrain(color) {
+                const brainSvg = document.getElementById('brainSvg');
+                const brainMain = brainSvg.querySelector('.brain-main');
+                
+                // Aplicar color y efectos
+                brainSvg.classList.add('active');
+                brainMain.style.fill = color;
+                brainMain.style.filter = `drop-shadow(0 0 20px ${color})`;
+                
+                // Efecto pulsante
+                brainSvg.classList.add('pulse');
+                
+                // Remover efectos después de 3 segundos
+                setTimeout(() => {
+                    brainSvg.classList.remove('active', 'pulse');
+                    brainMain.style.fill = 'url(#brainGradient)';
+                    brainMain.style.filter = 'url(#glow)';
+                }, 3000);
+            }
+
+            // Animar cuerpo
+            animateBody(color) {
+                const bodySvg = document.getElementById('bodySvg');
+                const bodyContainer = document.getElementById('bodyImage');
+                
+                // Aplicar efectos al SVG y contenedor
+                bodySvg.classList.add('active');
+                bodyContainer.style.borderColor = color;
+                bodyContainer.style.boxShadow = `0 0 30px ${color}`;
+                
+                // Animar órganos específicos según la hormona
+                this.animateSpecificOrgans(color);
+                
+                // Efecto pulsante
+                bodySvg.classList.add('pulse');
+                
+                // Remover efectos después de 3 segundos
+                setTimeout(() => {
+                    bodySvg.classList.remove('active', 'pulse');
+                    bodyContainer.style.borderColor = 'var(--accent-cyan)';
+                    bodyContainer.style.boxShadow = '';
+                    this.resetOrganColors();
+                }, 3000);
+            }
+
+            // Animar órganos específicos según la hormona
+            animateSpecificOrgans(color) {
+                const bodySvg = document.getElementById('bodySvg');
+                
+                switch(this.selectedHormone) {
+                    case 'insulina':
+                        // Resaltar páncreas e hígado
+                        this.highlightOrgan(bodySvg, '.pancreas', '#ffa500');
+                        this.highlightOrgan(bodySvg, '.liver', '#8b4513');
+                        break;
+                    case 'oxitocina':
+                        // Resaltar corazón y cerebro
+                        this.highlightOrgan(bodySvg, '.heart', '#ff6b6b');
+                        this.highlightOrgan(bodySvg, '.head', '#e91e63');
+                        break;
+                    case 'endorfina':
+                        // Resaltar sistema nervioso y cerebro
+                        this.highlightOrgan(bodySvg, '.nervous-system', '#ff9800');
+                        this.highlightOrgan(bodySvg, '.head', '#ff9800');
+                        break;
+                    case 'cortisol':
+                        // Resaltar glándulas suprarrenales
+                        this.highlightOrgan(bodySvg, '.adrenals', '#ffff00');
+                        break;
+                    case 'adrenalina':
+                        // Resaltar corazón, glándulas suprarrenales y músculos
+                        this.highlightOrgan(bodySvg, '.heart', '#f44336');
+                        this.highlightOrgan(bodySvg, '.adrenals', '#ffff00');
+                        this.highlightOrgan(bodySvg, '.arms', '#f44336');
+                        this.highlightOrgan(bodySvg, '.thighs', '#f44336');
+                        break;
+                    case 'melatonina':
+                        // Resaltar glándula pineal y sistema nervioso
+                        this.highlightOrgan(bodySvg, '.pineal', '#4b0082');
+                        this.highlightOrgan(bodySvg, '.nervous-system', '#673ab7');
+                        break;
+                }
+            }
+
+            // Resaltar órgano específico
+            highlightOrgan(svg, selector, color) {
+                const organs = svg.querySelectorAll(selector);
+                organs.forEach(organ => {
+                    organ.style.fill = color;
+                    organ.style.filter = `drop-shadow(0 0 10px ${color})`;
+                    organ.style.stroke = color;
+                });
+            }
+
+            // Resetear colores de órganos
+            resetOrganColors() {
+                const bodySvg = document.getElementById('bodySvg');
+                const organs = bodySvg.querySelectorAll('.body-organ, .circulatory, .nervous-system, .body-region');
+                
+                organs.forEach(organ => {
+                    organ.style.fill = '';
+                    organ.style.filter = '';
+                    organ.style.stroke = '';
+                });
+            }
+
+            // Crear partículas de fondo
+            createParticles() {
+                const particlesContainer = document.getElementById('particles');
+                const particleCount = window.innerWidth < 768 ? 20 : 50;
+                
+                for (let i = 0; i < particleCount; i++) {
+                    const particle = document.createElement('div');
+                    particle.classList.add('particle');
+                    particle.style.left = Math.random() * 100 + '%';
+                    particle.style.animationDelay = Math.random() * 6 + 's';
+                    particle.style.animationDuration = (Math.random() * 3 + 4) + 's';
+                    particlesContainer.appendChild(particle);
+                }
+            }
+
+            // Actualizar color de partículas
+            updateParticleColor(color) {
+                document.querySelectorAll('.particle').forEach(particle => {
+                    particle.style.backgroundColor = color;
+                });
+            }
+
+            // Obtener estadísticas de uso
+            getUsageStats() {
+                return {
+                    visitCount: this.userData.visitCount,
+                    lastVisit: this.userData.lastVisit,
+                    currentSection: this.currentSection,
+                    selectedNeurotransmitter: this.selectedNeurotransmitter,
+                    selectedHormone: this.selectedHormone
+                };
+            }
+
+            // Resetear datos
+            resetData() {
+                localStorage.removeItem(APP_DATA_KEY);
+                this.userData = {
+                    visitCount: 1,
+                    lastVisit: new Date().toISOString(),
+                    preferences: {},
+                    progress: {}
+                };
+                this.saveData();
+            }
+        }
+
+        // Función global para navegación (usada por el botón CTA)
+        function navigateToSection(section) {
+            if (window.sinfoniaApp) {
+                window.sinfoniaApp.navigateToSection(section);
+            }
+        }
+
+        // Inicializar aplicación cuando el DOM esté listo
+        document.addEventListener('DOMContentLoaded', () => {
+            window.sinfoniaApp = new SinfoniaQuimica();
+            
+            // Mensaje de bienvenida en consola
+            console.log('🧠 La Sinfonía Química de la Mente y el Cuerpo');
+            console.log('✨ Aplicación inicializada correctamente');
+            console.log('📊 Estadísticas:', window.sinfoniaApp.getUsageStats());
+        });
+
+        // Manejar cambios de tamaño de ventana
+        window.addEventListener('resize', () => {
+            // Recrear partículas si es necesario
+            const particlesContainer = document.getElementById('particles');
+            const currentParticleCount = particlesContainer.children.length;
+            const newParticleCount = window.innerWidth < 768 ? 20 : 50;
+            
+            if (currentParticleCount !== newParticleCount) {
+                particlesContainer.innerHTML = '';
+                window.sinfoniaApp.createParticles();
+            }
+        });
+
+        // Prevenir pérdida de datos al cerrar
+        window.addEventListener('beforeunload', () => {
+            if (window.sinfoniaApp) {
+                window.sinfoniaApp.saveData();
+            }
+        });
+
+        // Funciones de utilidad para desarrolladores
+        window.debugSinfonia = {
+            getStats: () => window.sinfoniaApp.getUsageStats(),
+            resetData: () => window.sinfoniaApp.resetData(),
+            getData: () => JSON.parse(localStorage.getItem(APP_DATA_KEY) || '{}'),
+            setData: (data) => localStorage.setItem(APP_DATA_KEY, JSON.stringify(data))
+        };
+    </script>
+</body>
+</html>

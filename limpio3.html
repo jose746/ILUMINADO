@@ -1,0 +1,1147 @@
+
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title> Tienda ILUMINADO</title>
+    <!-- Bootstrap CSS desde CDN -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css">
+
+<!-- jQuery desde CDN -->
+<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+
+<!-- model-viewer desde CDN -->
+<script type="module" src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"></script>
+
+    <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+<script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+
+
+    <style>
+        /* Estilos globales: Resetean márgenes, rellenos y establecen el modelo de caja para todos los elementos. */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        /* Estilos del cuerpo de la página: Define la fuente, un fondo degradado futurista, color de texto y asegura que el contenido ocupe al menos toda la altura de la ventana. */
+        body {
+            font-family: 'Arial', sans-serif;
+           background: linear-gradient(135deg, #050505 0%, #131313 50%, #0042f6 100%);
+            color: #ffffff;
+            min-height: 100vh;
+            overflow-x: hidden; /* Evita el desplazamiento horizontal no deseado. */
+           /* height: 100vh;*/
+     /* background-image: url('fondo3.jpg');
+      background-size: cover;       /* Ajusta el tamaño para cubrir todo el área *
+      background-position: center;  /* Centra la imagen *
+      background-repeat: no-repeat; /* Evita que se repita */
+    }
+        
+      
+
+        /* Estilos del encabezado: Aplica un degradado vibrante, relleno, centra el texto y añade una sombra brillante. */
+        .header {
+            background: linear-gradient(90deg, #000000, #7e7e7e, #000000);
+            padding: 1rem;
+            text-align: center;
+            box-shadow: 0 4px 20px rgba(255, 0, 110, 0.5); /* Sombra que simula un brillo. */
+        }
+
+        /* Estilos del título principal del encabezado: Define tamaño, peso de fuente y aplica un efecto de brillo animado. */
+        .header h1 {
+            font-size: 2rem;
+            font-weight: bold;
+            text-shadow: 0 0 10px rgba(105, 105, 105, 0.5);
+            animation: glow 2s ease-in-out infinite alternate; /* Animación de brillo. */
+        }
+
+        /* Keyframes para la animación de brillo: Cambia la sombra del texto para crear un efecto pulsante. */
+        @keyframes glow {
+            from { text-shadow: 0 0 10px rgba(255, 255, 255, 0.5); }
+            to { text-shadow: 0 0 20px rgba(255, 255, 255, 0.8), 0 0 30px rgba(255, 0, 110, 0.5); }
+        }
+
+        /* Estilos de la barra de navegación: Fijo, fondo oscuro semitransparente, desenfoque y borde inferior */
+.nav {
+    position: sticky;
+    top: 0;
+    background: rgba(148, 148, 148, 0.642);
+    backdrop-filter: blur(10px);
+    border-bottom: 2px solid #ff006e;
+    z-index: 1000;
+}
+
+/* Lista de navegación: estilo limpio, distribución horizontal */
+.nav ul {
+    list-style: none;
+    display: flex;
+    justify-content: space-around;
+    padding: 1rem 0;
+    margin: 0;
+}
+
+/* Elementos individuales: posicionamiento relativo si lo necesitas para badges o efectos */
+.nav li {
+    position: relative;
+}
+
+/* Enlaces con iconos: centrado, estilo circular y transición elegante */
+.nav a {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.6rem;
+    border: 2px solid transparent;
+    border-radius: 50%;
+    background-color: transparent;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+    color: #000000;
+    text-decoration: none;
+}
+
+/* Iconos dentro del enlace: tamaño adecuado y transición suave */
+.nav a ion-icon {
+    font-size: 1.5rem;
+    color: inherit;
+    transition: transform 0.3s ease, color 0.3s ease;
+}
+
+/* Hover en el enlace: borde colorido, sombra y animación del ícono */
+.nav a:hover {
+    border-color: #ff006e;
+    box-shadow: 0 0 15px rgba(255, 0, 110, 0.6);
+    transform: translateY(-2px);
+}
+
+/* Hover específico en el ícono (opcional) */
+.nav a:hover ion-icon {
+    transform: scale(1.3);
+    color: #ff006e;
+}
+
+
+       
+        /* Estilos del badge del carrito: Pequeño círculo para mostrar la cantidad de artículos en el carrito. Se posiciona absolutamente. */
+        .cart-badge {
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            background: #ff006e; /* Fondo rosa vibrante. */
+            color: white;
+            border-radius: 50%; /* Lo hace circular. */
+            width: 20px;
+            height: 20px;
+            font-size: 0.8rem;
+            display: flex; /* Para centrar el número. */
+            align-items: center;
+            justify-content: center;
+            display: none; /* Oculto por defecto. */
+        }
+
+        /* Contenido principal: Define el relleno y asegura una altura mínima. */
+        .main-content {
+            padding: 2rem;
+            min-height: 80vh;
+        }
+
+
+        /* Estilos generales para el contenido de inicio */
+#inicio img {
+    display: block;
+    max-width: 100%;
+    height: auto;
+    margin: 1rem auto;
+    border-radius: 12px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+    transition: transform 0.3s ease-in-out;
+}
+
+#inicio img:hover {
+    transform: scale(1.05);
+}
+
+
+
+
+
+
+
+
+
+/* Ajustes para pantallas pequeñas */
+@media (max-width: 600px) {
+    #inicio img {
+        margin: 1rem 0;
+    }
+}
+
+
+        /* Páginas individuales: Ocultas por defecto. */
+        .page {
+            display: none;
+        }
+
+        /* Página activa: Se muestra. */
+        .page.active {
+            display: block;
+        }
+
+        /* Estilos de la página de inicio: Centra el texto y añade relleno. */
+        .inicio {
+            text-align: center;
+            padding: 3rem 0;
+        }
+
+        /* Título de la página de inicio: Tamaño grande y texto con degradado animado. */
+        .inicio h2 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            background: linear-gradient(45deg, #686868, #2f2f2f, #ff0000); /* Degradado para el texto. */
+            -webkit-background-clip: text; /* Recorta el fondo para que solo se vea a través del texto (para navegadores WebKit). */
+            -webkit-text-fill-color: transparent; /* Hace el texto transparente para que se vea el fondo. */
+            background-clip: text; /* Estándar para recortar el fondo al texto. */
+        }
+
+        /* Párrafos en la página de inicio: Tamaño de fuente y color más claro. */
+        .inicio p {
+            font-size: 1.2rem;
+            margin-bottom: 2rem;
+            color: #cccccc;
+        }
+
+        /* Contenedor de botones de categoría: Usa un grid para organizar los botones. */
+        .category-buttons {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr); /* Dos columnas de igual ancho. */
+            gap: 1rem; /* Espacio entre los botones. */
+            margin-bottom: 2rem;
+        }
+
+        /* Botones de categoría: Fondo degradado, sin borde, relleno, bordes redondeados y efectos interactivos. */
+        .category-btn {
+            background: linear-gradient(45deg, #ff006e, #8338ec);
+            border: none;
+            padding: 1rem;
+            border-radius: 15px;
+            color: white;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: all 0.3s ease; /* Transición suave para efectos. */
+            box-shadow: 0 4px 15px rgba(255, 0, 110, 0.3); /* Sombra sutil. */
+        }
+
+        /* Efecto hover en botones de categoría: Ligero desplazamiento y sombra más pronunciada. */
+        .category-btn:hover {
+            transform: translateY(-3px); /* Desplazamiento hacia arriba. */
+            box-shadow: 0 8px 25px rgba(255, 0, 110, 0.5); /* Sombra más intensa. */
+        }
+
+        /* Estilo para el botón de categoría activo: Cambia el degradado del fondo y la sombra. */
+        .category-btn.active {
+            background: linear-gradient(45deg, #3a86ff, #8338ec);
+            box-shadow: 0 0 20px rgba(58, 134, 255, 0.6);
+        }
+
+        /* Contenedor de la cuadrícula de productos: Usa un grid para mostrar los productos. */
+        .product-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr); /* Dos columnas por defecto. */
+            gap: 1.5rem; /* Espacio entre las tarjetas de producto. */
+            margin-top: 2rem;
+        }
+
+        /* Tarjeta de producto individual: Fondo semitransparente, bordes redondeados, relleno y transiciones para efectos. */
+        .product-card {
+            background: rgba(255, 255, 255, 0.1); /* Fondo semitransparente. */
+            border-radius: 15px;
+            padding: 1rem;
+            text-align: center;
+            transition: all 0.3s ease;
+            border: 2px solid transparent; /* Borde transparente por defecto. */
+            backdrop-filter: blur(5px); /* Efecto de desenfoque detrás de la tarjeta. */
+        }
+
+        /* Efecto hover en tarjeta de producto: Cambia el color del borde, ligero desplazamiento y sombra más pronunciada. */
+        .product-card:hover {
+            border-color: #ff006e; /* Cambia el color del borde al pasar el ratón. */
+            transform: translateY(-5px); /* Desplazamiento hacia arriba. */
+            box-shadow: 0 10px 30px rgba(255, 0, 110, 0.3); /* Sombra intensa. */
+        }
+
+        /* Imágenes de producto dentro de la tarjeta: Asegura que ocupen todo el ancho, tienen una altura fija, se ajustan al contenedor y tienen bordes redondeados. */
+        .product-card img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover; /* Ajusta la imagen sin distorsionarla. */
+            border-radius: 10px;
+            cursor: pointer; /* Cambia el cursor a una mano para indicar que es clickeable. */
+            transition: transform 0.3s ease; /* Transición suave para el efecto de escala. */
+        }
+
+        /* Efecto hover en imágenes de producto: Ligeramente escala la imagen al pasar el ratón. */
+        .product-card img:hover {
+            transform: scale(1.05); /* Aumenta ligeramente el tamaño de la imagen. */
+        }
+
+        /* Título del producto en la tarjeta. */
+        .product-card h3 {
+            margin: 1rem 0 0.5rem;
+            color: #ffffff;
+        }
+
+        /* Precio del producto en la tarjeta. */
+        .product-card p {
+            color: #cccccc;
+            margin-bottom: 1rem;
+        }
+
+        /* Estilos del modal (ventana emergente): Oculto por defecto, cubre toda la pantalla y centra su contenido. */
+        .modal {
+            display: none; /* Oculto por defecto. */
+            position: fixed; /* Fijo en la ventana de visualización. */
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.9); /* Fondo oscuro semitransparente. */
+            z-index: 2000; /* Asegura que esté por encima de todo. */
+            align-items: center; /* Centra verticalmente. */
+            justify-content: center; /* Centra horizontalmente. */
+        }
+
+        /* Modal activo: Se muestra. */
+        .modal.active {
+            display: flex;
+        }
+
+        /* Contenido del modal: Fondo degradado, relleno, bordes redondeados, centrado de texto y ancho máximo. */
+        .modal-content {
+            background: linear-gradient(135deg, #1a1a2e, #16213e);
+            padding: 2rem;
+            border-radius: 20px;
+            text-align: center;
+            max-width: 500px;
+            width: 90%;
+            border: 2px solid #ff006e; /* Borde vibrante. */
+            position: relative; /* Para posicionar el botón de cerrar. */
+        }
+
+        /* Imagen dentro del modal: Ocupa todo el ancho disponible hasta un máximo, con bordes redondeados. */
+        .modal-content img {
+            width: 100%;
+            max-width: 300px;
+            border-radius: 15px;
+            margin-bottom: 1rem;
+        }
+
+        /* Botón "Agregar al Carrito" dentro del modal: Fondo degradado, sin borde, relleno, bordes redondeados y efectos interactivos. */
+        .add-to-cart {
+            background: linear-gradient(45deg, #ff006e, #8338ec);
+            border: none;
+            padding: 1rem 2rem;
+            border-radius: 25px;
+            color: white;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 1rem;
+        }
+
+        /* Efecto hover en el botón "Agregar al Carrito": Ligero desplazamiento y sombra pronunciada. */
+        .add-to-cart:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(255, 0, 110, 0.5);
+        }
+
+        /* Botón para cerrar el modal: Posicionado en la esquina superior derecha del modal. */
+        .close-modal {
+            position: absolute;
+            top: 10px;
+            right: 15px;
+            background: none;
+            border: none;
+            color: #ff006e;
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+
+        /* Estilos del formulario en la página del carrito: Ancho máximo, centrado, fondo semitransparente, relleno y bordes redondeados. */
+        .cart-form {
+            max-width: 600px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.1);
+            padding: 2rem;
+            border-radius: 20px;
+            backdrop-filter: blur(10px); /* Efecto de desenfoque detrás del formulario. */
+        }
+
+        /* Grupo de formulario (label + input/select). */
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        /* Etiquetas del formulario. */
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: #ffffff;
+            font-weight: bold;
+        }
+
+        /* Campos de entrada y selección del formulario: Ocupan todo el ancho, relleno, borde, fondo semitransparente y color de texto. */
+        .form-group input,
+        .form-group select {
+            width: 100%;
+            padding: 0.8rem;
+            border: 2px solid #ff006e;
+            border-radius: 10px;
+            background: rgba(0, 0, 0, 0.5);
+            color: #ffffff;
+            font-size: 1rem;
+        }
+
+        /* Efecto focus en campos del formulario: Resalta con una sombra brillante. */
+        .form-group input:focus,
+        .form-group select:focus {
+            outline: none;
+            box-shadow: 0 0 15px rgba(255, 0, 110, 0.5);
+        }
+
+        /* Contenedor de elementos del carrito. */
+        .cart-items {
+            margin-bottom: 2rem;
+        }
+
+        /* Elemento individual en el carrito: Fondo semitransparente, relleno, bordes redondeados, y diseño flex para alinear contenido. */
+        .cart-item {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 1rem;
+            border-radius: 10px;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between; /* Distribuye el espacio entre el contenido y el botón de eliminar. */
+        }
+        
+        /* Imagen dentro de un elemento del carrito: Estilos para el tamaño y los bordes. */
+        .cart-item img {
+            width: 50px; /* Tamaño más pequeño para la vista del carrito */
+            height: 50px;
+            object-fit: cover;
+            border-radius: 5px;
+            margin-right: 1rem;
+        }
+
+        /* Contenedor para el nombre y precio del producto en el carrito. */
+        .cart-item div {
+            display: flex;
+            align-items: center;
+        }
+        
+        /* Título del producto dentro de un elemento del carrito. */
+        .cart-item h4 {
+            margin: 0;
+            margin-right: 1rem; /* Espacio entre el nombre y el precio */
+        }
+
+        /* Precio del producto dentro de un elemento del carrito. */
+        .cart-item p {
+            margin: 0;
+            color: #cccccc;
+        }
+
+        /* Botón para confirmar pedido: Fondo degradado, sin borde, relleno, bordes redondeados y efectos interactivos. */
+        .confirm-btn {
+            background: linear-gradient(45deg, #3a86ff, #8338ec);
+            border: none;
+            padding: 1rem 2rem;
+            border-radius: 25px;
+            color: white;
+            font-size: 1.2rem;
+            cursor: pointer;
+            width: 100%; /* Ocupa todo el ancho disponible. */
+            transition: all 0.3s ease;
+        }
+
+        /* Efecto hover en el botón de confirmar pedido: Ligero desplazamiento y sombra pronunciada. */
+        .confirm-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(58, 134, 255, 0.5);
+        }
+
+        /* Estilos de la página de ajustes: Ancho máximo y centrado. */
+        .settings {
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        /* Título de la página de ajustes. */
+        .settings h2 {
+            text-align: center;
+            margin-bottom: 2rem;
+            color: #ff006e;
+        }
+
+        /* Elemento individual de configuración: Fondo semitransparente, relleno, bordes redondeados y efecto de desenfoque. */
+        .setting-item {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 1.5rem;
+            border-radius: 15px;
+            margin-bottom: 1rem;
+            backdrop-filter: blur(5px);
+        }
+
+        /* Estilos para notificaciones temporales */
+        .notification {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: #333;
+            color: white;
+            padding: 15px 25px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
+            opacity: 0; /* Inicialmente transparente */
+            transition: opacity 0.5s ease-in-out, transform 0.5s ease-in-out; /* Transiciones suaves */
+            z-index: 3000; /* Asegura que esté por encima de todo */
+        }
+        
+        .notification.show {
+            opacity: 1; /* Hace visible la notificación */
+            transform: translateX(-50%) translateY(-10px); /* Ligeramente hacia arriba */
+        }
+
+
+        /* Diseño Responsivo: Ajustes para diferentes tamaños de pantalla. */
+  /* Para pantallas muy pequeñas (ancho máximo 360px) */
+  @media (max-width: 360px) {
+            .header h1 {
+                font-size: 1.5rem; /* Reduce el tamaño del título del encabezado. */
+            }
+         
+            .nav ul {
+                flex-wrap: wrap; /* Permite que los elementos de navegación se envuelvan. */
+                gap: 0.5rem; /* Reduce el espacio entre elementos. */
+            }
+            
+            .nav a {
+                padding: 0.3rem 0.8rem; /* Reduce el relleno de los enlaces de navegación. */
+                font-size: 0.9rem; /* Reduce el tamaño de la fuente. */
+            }
+            
+            .category-buttons {
+                grid-template-columns: 1fr; /* Una sola columna para los botones de categoría. */
+            }
+            
+            .product-grid {
+                grid-template-columns: 1fr; /* Una sola columna para la cuadrícula de productos. */
+            }
+        }
+
+
+        /* Para pantallas pequeñas (ancho máximo 480px) */
+        @media (max-width: 480px) {
+            .nav ul {
+    display: flex;              /* Activa el modelo flexbox */
+    flex-direction: row;        /* Coloca los elementos en fila horizontalmente */
+    gap: 0.5rem;                /* Espacio entre los elementos */
+}
+            .main-content {
+                padding: 1rem; /* Reduce el relleno del contenido principal. */
+            }
+            
+            .inicio h2 {
+                font-size: 2rem; /* Reduce el tamaño del título de inicio. */
+            }
+            
+            .product-card img {
+                height: 150px; /* Reduce la altura de las imágenes de producto. */
+            }
+        }
+
+        /* Para tabletas y pantallas medianas (ancho máximo 768px) */
+        @media (max-width: 768px) {
+            /*.nav ul {
+                flex-direction: column; /* Apila los elementos de navegación verticalmente. 
+                gap: 0.5rem;
+            }*/
+            .nav ul {
+    display: flex;              /* Activa el modelo flexbox */
+    flex-direction: row;        /* Coloca los elementos en fila horizontalmente */
+    gap: 0.5rem;                /* Espacio entre los elementos */
+}
+
+            
+            .category-buttons {
+                grid-template-columns: repeat(2, 1fr); /* Mantiene dos columnas para botones de categoría. */
+            }
+        }
+
+        /* Para pantallas grandes (ancho mínimo 1200px) */
+        @media (min-width: 1200px) {
+            .product-grid {
+                grid-template-columns: repeat(3, 1fr); /* Tres columnas para la cuadrícula de productos. */
+            }
+            
+            .category-buttons {
+                grid-template-columns: repeat(4, 1fr); /* Cuatro columnas para los botones de categoría. */
+            }
+            
+            .main-content {
+                padding: 3rem; /* Aumenta el relleno del contenido principal. */
+            }
+        }
+
+
+        .REGRESAR {
+            cursor: pointer;
+            border: solid 2px rgb(226, 226, 226);
+border-radius: 30px;
+            margin-bottom: 20px;
+            padding: 20px;
+            text-align: center;
+            color: #e2dfdf;
+            background-color: #000000;
+
+        }
+.REGRESAR:hover {
+    border: solid 2px rgb(7, 245, 58);
+    transition: all 0.7s ease-in-out;
+    background-color: #dedede;
+    color: #000000;
+}
+
+
+
+
+
+    </style>
+</head>
+<body>
+    <header class="header">
+        <h1>ILUMINADO</h1>
+    </header>
+
+    <nav class="nav">
+        <ul>
+            <li>
+                <a href="#" onclick="showPage('inicio')">
+                    <ion-icon name="home-outline"></ion-icon>
+                </a>
+            </li>
+            <li>
+                <a href="#" onclick="showPage('categoria')">
+                    <ion-icon name="storefront-outline"></ion-icon>
+                </a>
+            </li>
+            <li>
+                <a href="#" onclick="showPage('carrito')">
+                    <ion-icon name="cart-outline"></ion-icon>
+                </a>
+                <span class="cart-badge" id="cartBadge">0</span>
+            </li>
+            <li>
+                <a href="#" onclick="showPage('ajustes')">
+                    <ion-icon name="settings-outline"></ion-icon>
+                </a>
+            </li>
+        </ul>
+    </nav>
+
+    <main class="main-content">
+        <div id="inicio" class="page active">
+            <div class="inicio">
+                <h2>Bienvenido a La Fusión</h2>
+                <p>Descubre la moda del futuro con nuestros productos únicos y vanguardistas.</p>
+                <div style="background: rgba(255, 255, 255, 0.1); padding: 2rem; border-radius: 20px; backdrop-filter: blur(10px);">
+                    <h3>¿Qué nos hace especiales?</h3>
+                    <p>Combinamos tecnología de vanguardia con diseño futurista para crear prendas únicas que definen el estilo del mañana.</p>
+              <img src="fond1.jpg" alt="anime">
+              <p>este es mi lugar faborito que apinas </p>
+
+                </div>
+                
+            </div>
+        </div>
+
+
+        <div id="inicio" class="page active">
+            <div class="inicio">
+                
+                <p>la vida solo es una y tienes que aprovecha</p>
+                <div style="background: rgba(255, 255, 255, 0.1); padding: 2rem; border-radius: 20px; backdrop-filter: blur(10px);">
+                    <h3>¿Qué nos hace especiales?</h3>
+                    <p>Combinamos tecnología de vanguardia con diseño futurista para crear prendas únicas que definen el estilo del mañana.</p>
+              <img src="fond2.jpg" alt="anime">
+              <p>este es mi lugar favborito que apinas </p>
+
+                </div>
+                
+            </div>
+        </div>
+
+      
+        <div id="categoria" class="page">
+            <h2 style="text-align: center; margin-bottom: 2rem; color: #ff006e;">Nuestras Categorías</h2>
+            
+            <div class="category-buttons">
+                <button class="category-btn active" onclick="showCategory('pantalones')">Pantalones</button>
+                <button class="category-btn" onclick="showCategory('playeras')">Playeras</button>
+                <button class="category-btn" onclick="showCategory('sudaderas')">Sudaderas</button>
+                <button class="category-btn" onclick="showCategory('zapatos')">Zapatos</button>
+            </div>
+
+            <div id="pantalones" class="category-content">
+                <div class="product-grid">
+                    <div class="product-card">
+                        <img src="https://images.unsplash.com/photo-1542272604-787c3835535d?w=400&h=400&fit=crop" alt="Pantalón Futurista 1" onclick="openModal('Pantalón Cyber Tech', 'https://images.unsplash.com/photo-1542272604-787c3835535d?w=400&h=400&fit=crop', '$899')">
+                        <h3>Pantalón Cyber Tech</h3>
+                        <p>$899</p>
+                    </div>
+                    <div class="product-card">
+                        <img src="https://images.unsplash.com/photo-1473966968600-fa801b869a1a?w=400&h=400&fit=crop" alt="Pantalón Futurista 2" onclick="openModal('Pantalón Neon Style', 'https://images.unsplash.com/photo-1473966968600-fa801b869a1a?w=400&h=400&fit=crop', '$1299')">
+                        <h3>Pantalón Neon Style</h3>
+                        <p>$1299</p>
+                    </div>
+                    <div class="product-card">
+                        <img src="https://images.unsplash.com/photo-1506629905077-37cc04d46a36?w=400&h=400&fit=crop" alt="Pantalón Futurista 3" onclick="openModal('Pantalón Holographic', 'https://images.unsplash.com/photo-1506629905077-37cc04d46a36?w=400&h=400&fit=crop', '$1599')">
+                        <h3>Pantalón Holographic</h3>
+                        <p>$1599</p>
+                    </div>
+                    <div class="product-card">
+                        <img src="https://images.unsplash.com/photo-1551806235-a05dd14a54c7?w=400&h=400&fit=crop" alt="Pantalón Futurista 4" onclick="openModal('Pantalón Matrix', 'https://images.unsplash.com/photo-1551806235-a05dd14a54c7?w=400&h=400&fit=crop', '$999')">
+                        <h3>Pantalón Matrix</h3>
+                        <p>$999</p>
+                    </div>
+                </div>
+            </div>
+
+            <div id="playeras" class="category-content" style="display: none;">
+                <div class="product-grid">
+                    <div class="product-card">
+                        <img src="https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=400&h=400&fit=crop" alt="Playera Futurista 1" onclick="openModal('Playera Cyber Glow', 'https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=400&h=400&fit=crop', '$599')">
+                        <h3>Playera Cyber Glow</h3>
+                        <p>$599</p>
+                    </div>
+                    <div class="product-card">
+                        <img src="https://images.unsplash.com/photo-1503341504253-dff4815485f1?w=400&h=400&fit=crop" alt="Playera Futurista 2" onclick="openModal('Playera Neon Dreams', 'https://images.unsplash.com/photo-1503341504253-dff4815485f1?w=400&h=400&fit=crop', '$799')">
+                        <h3>Playera Neon Dreams</h3>
+                        <p>$799</p>
+                    </div>
+                    <div class="product-card">
+                        <img src="https://images.unsplash.com/photo-1571945153237-4929e783af4a?w=400&h=400&fit=crop" alt="Playera Futurista 3" onclick="openModal('Playera Hologram', 'https://images.unsplash.com/photo-1571945153237-4929e783af4a?w=400&h=400&fit=crop', '$899')">
+                        <h3>Playera Hologram</h3>
+                        <p>$899</p>
+                    </div>
+                    <div class="product-card">
+                        <img src="https://images.unsplash.com/photo-1562157873-818bc0726f68?w=400&h=400&fit=crop" alt="Playera Futurista 4" onclick="openModal('Playera Digital', 'https://images.unsplash.com/photo-1562157873-818bc0726f68?w=400&h=400&fit=crop', '$699')">
+                        <h3>Playera Digital</h3>
+                        <p>$699</p>
+                    </div>
+                </div>
+            </div>
+
+            <div id="sudaderas" class="category-content" style="display: none;">
+                <div class="product-grid">
+                    <div class="product-card">
+                        <img src="https://images.unsplash.com/photo-1556821840-3a63f95609a7?w=400&h=400&fit=crop" alt="Sudadera Futurista 1" onclick="openModal('Sudadera Cyber Punk', 'https://images.unsplash.com/photo-1556821840-3a63f95609a7?w=400&h=400&fit=crop', '$1499')">
+                        <h3>Sudadera Cyber Punk</h3>
+                        <p>$1499</p>
+                    </div>
+                    <div class="product-card">
+                        <img src="https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=400&h=400&fit=crop" alt="Sudadera Futurista 2" onclick="openModal('Sudadera Neon Tech', 'https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=400&h=400&fit=crop', '$1799')">
+                        <h3>Sudadera Neon Tech</h3>
+                        <p>$1799</p>
+                    </div>
+                    <div class="product-card">
+                        <img src="https://images.unsplash.com/photo-1620799140408-edc6dcb6d633?w=400&h=400&fit=crop" alt="Sudadera Futurista 3" onclick="openModal('Sudadera Holographic', 'https://images.unsplash.com/photo-1620799140408-edc6dcb6d633?w=400&h=400&fit=crop', '$1999')">
+                        <h3>Sudadera Holographic</h3>
+                        <p>$1999</p>
+                    </div>
+                    <div class="product-card">
+                        <img src="https://images.unsplash.com/photo-1618354691373-d851c5c3a990?w=400&h=400&fit=crop" alt="Sudadera Futurista 4" onclick="openModal('Sudadera Matrix', 'https://images.unsplash.com/photo-1618354691373-d851c5c3a990?w=400&h=400&fit=crop', '$1699')">
+                        <h3>Sudadera Matrix</h3>
+                        <p>$1699</p>
+                    </div>
+                </div>
+            </div>
+
+            <div id="zapatos" class="category-content" style="display: none;">
+                <div class="product-grid">
+                    <div class="product-card">
+                        <img src="https://images.unsplash.com/photo-1549298916-b41d501d3772?w=400&h=400&fit=crop" alt="Zapatos Futuristas 1" onclick="openModal('Zapatos Cyber Runner', 'https://images.unsplash.com/photo-1549298916-b41d501d3772?w=400&h=400&fit=crop', '$2499')">
+                        <h3>Zapatos Cyber Runner</h3>
+                        <p>$2499</p>
+                    </div>
+                    <div class="product-card">
+                        <img src="https://images.unsplash.com/photo-1595950653106-6c9ebd614d3a?w=400&h=400&fit=crop" alt="Zapatos Futuristas 2" onclick="openModal('Zapatos Neon Glow', 'https://images.unsplash.com/photo-1595950653106-6c9ebd614d3a?w=400&h=400&fit=crop', '$2899')">
+                        <h3>Zapatos Neon Glow</h3>
+                        <p>$2899</p>
+                    </div>
+                    <div class="product-card">
+                        <img src="https://images.unsplash.com/photo-1460353581641-37baddab0fa2?w=400&h=400&fit=crop" alt="Zapatos Futuristas 3" onclick="openModal('Zapatos Holographic', 'https://images.unsplash.com/photo-1460353581641-37baddab0fa2?w=400&h=400&fit=crop', '$3299')">
+                        <h3>Zapatos Holographic</h3>
+                        <p>$3299</p>
+                    </div>
+                    <div class="product-card">
+                        <img src="https://images.unsplash.com/photo-1581101767113-1677fcaf83d1?w=400&h=400&fit=crop" alt="Zapatos Futuristas 4" onclick="openModal('Zapatos Matrix', 'https://images.unsplash.com/photo-1581101767113-1677fcaf83d1?w=400&h=400&fit=crop', '$2799')">
+                        <h3>Zapatos Matrix</h3>
+                        <p>$2799</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="carrito" class="page">
+            <h2 style="text-align: center; margin-bottom: 2rem; color: #ff006e;">Tu Carrito</h2>
+            
+            <div class="cart-items" id="cartItems">
+                <p style="text-align: center; color: #cccccc;">Tu carrito está vacío</p>
+            </div>
+
+            <div class="cart-form">
+                <div class="form-group">
+                    <label for="customerName">Escribe tu nombre:</label>
+                    <input type="text" id="customerName" name="customerName" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="style">Selecciona el estilo:</label>
+                    <select id="style" name="style">
+                        <option value="">Selecciona un estilo</option>
+                        <option value="casual">Casual</option>
+                        <option value="formal">Formal</option>
+                        <option value="deportivo">Deportivo</option>
+                        <option value="elegante">Elegante</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="size">Selecciona la talla:</label>
+                    <select id="size" name="size">
+                        <option value="">Selecciona una talla</option>
+                        <option value="XS">XS</option>
+                        <option value="S">S</option>
+                        <option value="M">M</option>
+                        <option value="L">L</option>
+                        <option value="XL">XL</option>
+                        <option value="XXL">XXL</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="color">Selecciona el color:</label>
+                    <select id="color" name="color">
+                        <option value="">Selecciona un color</option>
+                        <option value="negro">Negro</option>
+                        <option value="blanco">Blanco</option>
+                        <option value="azul">Azul</option>
+                        <option value="rojo">Rojo</option>
+                        <option value="verde">Verde</option>
+                        <option value="rosa">Rosa</option>
+                        <option value="morado">Morado</option>
+                    </select>
+                </div>
+
+                <button class="confirm-btn" onclick="confirmOrder()">Confirmar Pedido</button>
+            </div>
+        </div>
+
+        <div id="ajustes" class="page">
+            <div class="settings">
+                <h2>Configuración</h2>
+                
+                <div class="setting-item">
+                    <h3>Tema</h3>
+                    <p>Personaliza la apariencia de tu experiencia</p>
+                    <select style="width: 100%; padding: 0.5rem; margin-top: 1rem; border-radius: 5px; border: 2px solid #ff006e; background: rgba(0,0,0,0.5); color: white;">
+                        <option>Modo Futurista (Actual)</option>
+                        <option>Modo Clásico</option>
+                        <option>Modo Neón</option>
+                    </select>
+                </div>
+
+                <div class="setting-item">
+                    <h3>Notificaciones</h3>
+                    <p>Configura cómo quieres recibir actualizaciones</p>
+                    <label style="display: flex; align-items: center; margin-top: 1rem;">
+                        <input type="checkbox" checked style="margin-right: 0.5rem;">
+                        Notificaciones de productos nuevos
+                    </label>
+                    <label style="display: flex; align-items: center; margin-top: 0.5rem;">
+                        <input type="checkbox" checked style="margin-right: 0.5rem;">
+                        Ofertas especiales
+                    </label>
+                </div>
+
+                <div class="setting-item">
+                    <h3>Idioma</h3>
+                    <p>Selecciona tu idioma preferido</p>
+                    <select style="width: 100%; padding: 0.5rem; margin-top: 1rem; border-radius: 5px; border: 2px solid #ff006e; background: rgba(0,0,0,0.5); color: white;">
+                        <option>Español (Actual)</option>
+                        <option>English</option>
+                        <option>Français</option>
+                        <option>Deutsch</option>
+                    </select>
+                </div>
+
+                <div class="setting-item">
+                    <h3>Acerca de</h3>
+                    <p>La Fusión - Versión 1.0</p>
+                    <p>Desarrollado con tecnología futurista para una experiencia única de compra.</p>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <div id="productModal" class="modal">
+        <div class="modal-content">
+            <button class="close-modal" onclick="closeModal()">&times;</button>
+            <img id="modalImage" src="" alt="Producto">
+            <h3 id="modalTitle"></h3>
+            <p id="modalPrice"></p>
+            <button class="add-to-cart" onclick="addToCart()">Agregar al Carrito</button>
+        </div>
+    </div>
+
+    <a href="principal.html">
+        <button class="REGRESAR">REGRESAR</button>
+    </a>
+
+
+    <script>
+        // Array para almacenar los productos en el carrito.
+        let cart = [];
+        // Variable para guardar el producto actualmente seleccionado en el modal.
+        let currentProduct = null;
+
+        /**
+         * showPage: Controla la visibilidad de las diferentes secciones (páginas) del sitio.
+         * @param {string} pageId - El ID de la página que se desea mostrar.
+         */
+        function showPage(pageId) {
+            // Selecciona todas las páginas y elimina la clase 'active' para ocultarlas.
+            const pages = document.querySelectorAll('.page');
+            pages.forEach(page => page.classList.remove('active'));
+            // Añade la clase 'active' a la página con el ID especificado para mostrarla.
+            document.getElementById(pageId).classList.add('active');
+            // Si la página mostrada es el carrito, actualiza su contenido.
+            if (pageId === 'carrito') {
+                updateCartDisplay();
+            }
+        }
+
+        /**
+         * showCategory: Muestra los productos de una categoría específica y resalta el botón de categoría activo.
+         * @param {string} categoryId - El ID del contenedor de la categoría a mostrar.
+         * @param {Event} event - El objeto de evento del clic, usado para identificar el botón.
+         */
+        function showCategory(categoryId, event) {
+            // Oculta todos los contenidos de categoría.
+            const categories = document.querySelectorAll('.category-content');
+            categories.forEach(category => category.style.display = 'none');
+            
+            // Remueve la clase 'active' de todos los botones de categoría.
+            const buttons = document.querySelectorAll('.category-btn');
+            buttons.forEach(btn => btn.classList.remove('active'));
+            
+            // Muestra el contenido de la categoría seleccionada.
+            document.getElementById(categoryId).style.display = 'block';
+            // Añade la clase 'active' al botón que fue clickeado.
+            event.target.classList.add('active');
+        }
+
+        /**
+         * openModal: Abre el modal de detalles del producto y carga la información del producto.
+         * @param {string} title - El nombre del producto.
+         * @param {string} image - La URL de la imagen del producto.
+         * @param {string} price - El precio del producto.
+         */
+        function openModal(title, image, price) {
+            // Almacena la información del producto actual para cuando se agregue al carrito.
+            currentProduct = { title, image, price };
+            // Actualiza el contenido del modal con los datos del producto.
+            document.getElementById('modalTitle').textContent = title;
+            document.getElementById('modalImage').src = image;
+            document.getElementById('modalPrice').textContent = price;
+            // Muestra el modal añadiendo la clase 'active'.
+            document.getElementById('productModal').classList.add('active');
+        }
+
+        /**
+         * closeModal: Cierra el modal de detalles del producto.
+         */
+        function closeModal() {
+            // Oculta el modal removiendo la clase 'active'.
+            document.getElementById('productModal').classList.remove('active');
+            // Reinicia la variable currentProduct.
+            currentProduct = null;
+        }
+
+        /**
+         * addToCart: Agrega el producto actualmente seleccionado al carrito.
+         */
+        function addToCart() {
+            // Verifica si hay un producto seleccionado en el modal.
+            if (currentProduct) {
+                // Agrega el producto al array del carrito.
+                cart.push(currentProduct);
+                // Actualiza el número en el badge del carrito.
+                updateCartBadge();
+                // Actualiza la lista de productos mostrados en la página del carrito.
+                updateCartDisplay();
+                // Cierra el modal.
+                closeModal();
+                // Muestra una notificación confirmando que el producto fue agregado.
+                showNotification('Producto agregado al carrito');
+            }
+        }
+
+        /**
+         * updateCartBadge: Actualiza el número de productos en el badge del carrito en la navegación.
+         */
+        function updateCartBadge() {
+            const badge = document.getElementById('cartBadge');
+            if (cart.length > 0) {
+                // Muestra el número de productos si el carrito no está vacío.
+                badge.textContent = cart.length;
+                badge.style.display = 'flex'; // Hace visible el badge.
+            } else {
+                badge.style.display = 'none'; // Oculta el badge si el carrito está vacío.
+            }
+        }
+
+        /**
+         * updateCartDisplay: Muestra la lista de productos en la página del carrito.
+         * Ahora incluye la imagen del producto.
+         */
+        function updateCartDisplay() {
+            const cartItemsContainer = document.getElementById('cartItems');
+            
+            if (cart.length === 0) {
+                // Muestra un mensaje si el carrito está vacío.
+                cartItemsContainer.innerHTML = '<p style="text-align: center; color: #cccccc;">Tu carrito está vacío</p>';
+            } else {
+                cartItemsContainer.innerHTML = ''; // Limpia el contenido actual del carrito.
+                // Itera sobre cada producto en el carrito y crea un elemento HTML para mostrarlo.
+                cart.forEach((item, index) => {
+                    const cartItem = document.createElement('div');
+                    cartItem.className = 'cart-item'; // Aplica estilos CSS definidos.
+                    cartItem.innerHTML = `
+                        <div>
+                            <img src="${item.image}" alt="${item.title}" style="width: 50px; height: 50px; object-fit: cover; border-radius: 5px; margin-right: 1rem;">
+                            <h4>${item.title}</h4>
+                            <p>${item.price}</p>
+                        </div>
+                        <button onclick="removeFromCart(${index})" style="background: #ff006e; border: none; padding: 0.5rem; border-radius: 5px; color: white; cursor: pointer;">
+                            Eliminar
+                        </button>
+                    `;
+                    cartItemsContainer.appendChild(cartItem); // Añade el elemento al contenedor del carrito.
+                });
+            }
+        }
+
+        /**
+         * removeFromCart: Elimina un producto del carrito basado en su índice.
+         * @param {number} index - El índice del producto a eliminar en el array del carrito.
+         */
+        function removeFromCart(index) {
+            cart.splice(index, 1); // Elimina 1 elemento desde el índice dado.
+            updateCartBadge(); // Actualiza el badge del carrito.
+            updateCartDisplay(); // Actualiza la visualización de los productos en el carrito.
+            showNotification('Producto eliminado del carrito'); // Muestra una notificación.
+        }
+
+        /**
+         * confirmOrder: Prepara un mensaje de pedido y lo envía a través de WhatsApp.
+         */
+        function confirmOrder() {
+            // Obtiene los valores del formulario de pedido.
+            const name = document.getElementById('customerName').value;
+            const style = document.getElementById('style').value;
+            const size = document.getElementById('size').value;
+            const color = document.getElementById('color').value;
+
+            // Validaciones básicas del formulario.
+            if (!name) {
+                showNotification('Por favor, ingresa tu nombre');
+                return;
+            }
+
+            if (cart.length === 0) {
+                showNotification('Tu carrito está vacío');
+                return;
+            }
+
+            // Construye el mensaje para WhatsApp.
+            let message = `¡Hola! Mi nombre es ${name} y me gustaría hacer el siguiente pedido:\n\n`;
+            
+            cart.forEach((item, index) => {
+                message += `${index + 1}. ${item.title} - ${item.price}\n`;
+            });
+
+            if (style) message += `\nEstilo preferido: ${style}`;
+            if (size) message += `\nTalla: ${size}`;
+            if (color) message += `\nColor: ${color}`;
+
+            message += '\n\n¡Gracias por tu atención!';
+
+            // Codifica el mensaje para que sea seguro en una URL y crea la URL de WhatsApp.
+            const encodedMessage = encodeURIComponent(message);
+            // Reemplaza '+14084308346' con el número de teléfono deseado para WhatsApp.
+            const whatsappURL = `https://wa.me/+14084308346?text=${encodedMessage}`;
+            
+            // Abre WhatsApp en una nueva pestaña.
+            window.open(whatsappURL, '_blank');
+            
+            // Limpia el carrito después de enviar el pedido.
+            cart = [];
+            updateCartBadge();
+            updateCartDisplay();
+            
+            // Limpia los campos del formulario.
+            document.getElementById('customerName').value = '';
+            document.getElementById('style').value = '';
+            document.getElementById('size').value = '';
+            document.getElementById('color').value = '';
+            
+            showNotification('Pedido enviado a WhatsApp'); // Notifica al usuario.
+        }
+
+        /**
+         * showNotification: Muestra una notificación temporal en la parte inferior de la pantalla.
+         * @param {string} message - El mensaje a mostrar en la notificación.
+         */
+        function showNotification(message) {
+            // Crea un nuevo elemento div para la notificación.
+            const notification = document.createElement('div');
+            notification.className = 'notification'; // Aplica la clase CSS 'notification'.
+            notification.textContent = message; // Establece el texto de la notificación.
+            document.body.appendChild(notification); // Añade la notificación al cuerpo del documento.
+
+            // Fuerza un reflow para asegurar que la transición funcione correctamente.
+            notification.offsetWidth; 
+
+            // Muestra la notificación añadiendo la clase 'show'.
+            notification.classList.add('show');
+
+            // Después de 3 segundos, oculta y elimina la notificación.
+            setTimeout(() => {
+                notification.classList.remove('show'); // Oculta la notificación.
+                // Después de la transición de ocultamiento, elimina la notificación del DOM.
+                notification.addEventListener('transitionend', () => {
+                    notification.remove();
+                });
+            }, 3000); // La notificación se mantiene visible por 3 segundos.
+        }
+    </script>
+</body>
+</html>

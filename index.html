@@ -1,0 +1,618 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ILUMINADO</title>
+  <!-- Bootstrap CSS desde CDN -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css">
+
+<!-- jQuery desde CDN -->
+<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+
+<!-- model-viewer desde CDN -->
+<script type="module" src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"></script>
+
+
+  <!-- Fuente futurista y monospace para efecto de máquina de escribir -->
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+
+  <!-- Estilos CSS -->
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    :root {
+      --neon: #0ff;
+      --neon-pink: #f0f;
+      --neon-blue: #0ff;
+      --neon-green: #0f0;
+      --text-color: #fff;
+      --background-dark: #000;
+    }
+
+
+    body {
+      font-family: 'Orbitron', sans-serif;
+      background: #000000;
+      color: rgb(255, 255, 255);
+      overflow-x: hidden;
+      position: relative;
+    }
+    h3, p {
+      color: rgb(0, 247, 255);
+    }
+
+    .rainbow-particles {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: -1;
+      overflow: hidden;
+    }
+
+    .rainbow-particles span {
+      position: absolute;
+      display: block;
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: red;
+      opacity: 0.8;
+      animation: fall 5s linear infinite;
+    }
+
+    @keyframes fall {
+      0% { transform: translateY(-10%); }
+      100% { transform: translateY(110vh); }
+    }
+   /* header {
+        
+  background: 
+    linear-gradient(to bottom right, #0ccfcc00 0%, #0000000c 50%, #2feb1a00 100%),
+    url('logii.png');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+
+padding: 100px;
+  height: 250px;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 2rem;
+  border-radius: 1rem;
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 
+              0 4px 6px -2px rgba(0, 0, 0, 0.05);
+}
+
+   
+    header h1 {
+
+      font-size: 3rem;
+      color: #0ff;
+      text-shadow: 0 0 10px #0ff;
+    }*/
+
+
+
+
+    .main-header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  background-color: #00000048; /* Puedes ajustar el fondo */
+  color: #fff;
+  text-align: center;
+}
+
+.logo-container {
+  max-width: 300px; /* Controla el tamaño máximo del logo */
+  height: auto;
+
+}
+
+.logo {
+ border-radius: 7rem;
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+
+
+
+
+
+ 
+ /* Contenedor principal de la animación */
+ .typewriter-container {
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 1.2rem;
+      color: #0f0;
+      /*
+        'pre-wrap' es crucial. Permite que el texto se ajuste a la siguiente línea
+        (como 'normal') y, al mismo tiempo, conserva los espacios en blanco
+        y los saltos de línea del código fuente.
+      */
+      white-space: pre-wrap;
+      overflow: hidden;
+      display: inline-block;
+      max-width: 800px;
+      position: relative; /* Necesario para posicionar el cursor parpadeante */
+      padding: 0.5rem;
+    }
+
+    /*
+      Usamos un pseudo-elemento ::after para crear el cursor parpadeante.
+      Esto es más flexible que usar un borde, ya que el borde podría
+      interferir con el texto cuando este se ajusta.
+    */
+    .typewriter-container::after {
+      content: ''; /* El pseudo-elemento debe tener un 'content' */
+      position: absolute;
+      top: 0;
+      right: -2px; /* Posición del cursor, pegado a la derecha del texto */
+      height: 100%;
+      width: 2px;
+      background-color: #0f0;
+      animation: blink 0.75s step-end infinite;
+    }
+
+    /* Animación CSS para hacer que el cursor parpadee */
+    @keyframes blink {
+      from, to {
+        background-color: transparent;
+      }
+      50% {
+        background-color: #0f0;
+      }
+    }
+
+
+
+
+
+    
+    @keyframes typing {
+      from { width: 0 }
+      to { width: 100% }
+    }
+
+    @keyframes blink {
+      50% { border-color: transparent }
+    }
+
+    .section {
+      padding: 80px 20px;
+      text-align: center;
+    }
+
+    .section h2 {
+      font-size: 2.5rem;
+      margin-bottom: 40px;
+      color: #0ff;
+      text-shadow: 0 0 10px #0ff;
+    }
+
+    .neon-box {
+      background: #111;
+      border-top: 2px solid rgb(255, 0, 0);
+      border-top: 2px solid #0ff;
+      box-shadow: 0 0 15px #0ff;
+      padding: 30px;
+      margin: 20px auto;
+      max-width: 600px;
+      border-radius: 15px;
+      opacity: 0;
+      transform: translateY(50px);
+    }
+
+    .cards {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 30px;
+      padding: 20px;
+    }
+
+    .card {
+      background: #000000;
+      padding: 20px;
+      border-radius: 15px;
+      border: 1px solid #0ff;
+      box-shadow: 0 0 20px rgb(0, 255, 255);
+      transition: transform 0.3s;
+      opacity: 0;
+    }
+
+    .card:hover {
+      transform: scale(1.05);
+    }
+
+    .card img {
+      width: 100%;
+      border-radius: 10px;
+      margin-bottom: 15px;
+    }
+
+    footer {
+      padding: 40px;
+      text-align: center;
+      background-color: #111;
+      color: #a6a6a6;
+    }
+
+    /* Media Queries */
+    @media (max-width: 1200px) {
+      header h1 { font-size: 2.5rem; }
+    }
+
+    @media (max-width: 768px) {
+      header h1 { font-size: 2rem; }
+      .section h2 { font-size: 2rem; }
+    }
+
+    @media (max-width: 480px) {
+      .typewriter { font-size: 1rem; }
+    }
+
+    @media (max-width: 360px) {
+      header h1 { font-size: 1.5rem; }
+      .section h2 { font-size: 1.5rem; }
+    }
+    .contact {
+  text-align: center; /* Centra los enlaces inline-block */
+  margin-top: 50px;   /* Opcional: espacio desde arriba */
+}
+
+.contact a {
+  display: inline-block;
+  margin: 10px;
+  padding: 15px 25px;
+  color: var(--text-color);
+  text-decoration: none;
+  border: 2px solid var(--neon);
+  border-radius: 8px;
+  animation: glow 0.5s infinite alternate;
+}
+
+
+    @keyframes glow {
+      from {
+        box-shadow: 0 0 5px var(--neon);
+      }
+      to {
+        box-shadow: 0 0 20px var(--neon-pink);
+      }
+    }
+
+
+
+  /* Estilo base */
+.seccion1 {
+
+  padding: 2rem;
+}
+
+.model-container {
+
+  width: 80%;
+  max-width: 800px;
+  height: 500px;
+  margin: 0 auto 2rem auto;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 4px 12px rgb(226, 225, 225);
+  background: radial-gradient(circle at center, #0000008b, #00000075);
+  border: 2px solid #04fd95;
+}
+.texto7 {
+  text-align: center;
+}
+
+
+
+model-viewer {
+  width: 100%;
+  height: 100%;
+  --poster-color: #f5f5f5;
+}
+
+/* 📱 Móviles pequeños (hasta 360px) */
+@media (max-width: 360px) {
+  .model-container {
+    width: 95%;
+    height: 280px;
+    border-radius: 6px;
+  }
+}
+
+/* 📱 Móviles medianos (hasta 480px) */
+@media (max-width: 480px) {
+  .model-container {
+    width: 92%;
+    height: 320px;
+  }
+}
+
+/* 📱 Tablets (hasta 768px) */
+@media (max-width: 768px) {
+  .model-container {
+    width: 88%;
+    height: 400px;
+  }
+}
+
+/* 🖥 Escritorio (desde 1024px en adelante) */
+@media (min-width: 1024px) {
+  .model-container {
+    width: 80%;
+    height: 500px;
+  }
+}
+
+
+
+
+
+
+
+
+
+
+  </style>
+
+
+
+
+
+
+</head>
+
+<body>
+  <div class="rainbow-particles"></div>
+
+
+  <header class="main-header">
+    <div class="logo-container">
+      <img src="logologo2.jpg" alt="Logo de ILUMINADO" class="logo" />
+    </div>
+    
+  </header>
+  
+
+
+  <section class="section" id="intro">
+    <h2>Bienvenido al futuro</h2>
+    <div class="neon-box">
+      <div class="typewriter-container" id="typewriter-text" data-text="BIENVENIDO a mi creación, soy el número 7 aprovecha mi herma que esto es temnporal"></div>
+    </div>
+  </section>
+  
+
+
+
+
+  <seccion1>
+    <div class="model-container">
+        <model-viewer
+            src="squid_game_man.glb"
+            alt="Un modelo 3D de un robot de juguete"
+            camera-controls
+            auto-rotate
+            ar
+        >
+        </model-viewer>
+    </div>
+    <p class="texto7">¡Explora el modelo 3D puedes rotarlo tu mismo.</p>
+  </seccion1>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <section class="section" id="proyectos">
+    <h2>Proyectos</h2>
+     <div class="cards">
+       <div class="card"> 
+        <a href="limpio4.html">
+        <img src="cuerpohumano2.jpg" alt="Proyecto 1"> 
+      </a>
+        <h3>Proyecto fase 1</h3> <p>quieres saber sobre el cuerpo Humano</p> 
+      </div> 
+    
+      <div class="card">
+        <a href="limpio1.html">
+        <img src="verde.png" alt="Proyecto 2">
+      </a>
+        <h3>Proyecto fase 2</h3>
+        <p>ILUMINADO </p>
+      </div>
+
+      <div class="card">
+        <a href="limpio3.html">
+        <img src="tienda f.png" alt="Proyecto 3">
+      </a>
+        <h3>Proyecto fase 3</h3>
+        <p>visitar tienda </p>
+      </div>
+      <div class="card">
+        <a href="limpio2.html">
+        <img src="carr.png" alt="Proyecto 4">
+      </a>
+
+      
+        <h3>Proyecto fase 4</h3>
+        <p>CARRO </p>
+      </div>
+      <div class="card">
+        <a href="https://jose746.github.io/fenix/">
+        <img src="antesstdo.PNG" alt="Proyecto 5">
+      </a>
+      <h3>Proyecto fase 5</h3>
+      <p>FENIX </p>
+    </div>
+  </section>
+  <section class="contact">
+    <h2>Contáctame</h2>
+    <a href="https://wa.me/+14084308346" target="_blank">WhatsApp</a>
+    <a href="https://facebook.com" target="_blank">Facebook</a>
+  </section>
+
+  <footer>
+    DESDE AQUI LA VISTA SE VE MEJOR 
+  </footer>
+
+  <!-- GSAP y ScrollTrigger -->
+  <script type="module" src="https://ajax.googleapis.com/ajax/libs/model-viewer/3.5.0/model-viewer.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+
+  <script>
+// Se ejecuta el código una vez que el documento esté completamente cargado
+document.addEventListener('DOMContentLoaded', () => {
+      // 1. Obtenemos el elemento HTML que contiene el texto
+      const typewriterElement = document.getElementById('typewriter-text');
+      
+      // 2. Extraemos el texto completo del atributo 'data-text'
+      const textToType = typewriterElement.dataset.text;
+
+      // 3. Vaciamos el contenido del elemento para que la animación empiece de cero
+      typewriterElement.innerHTML = '';
+      
+      // 4. Dividimos el texto en un array de caracteres individuales
+      const characters = textToType.split('');
+
+      // 5. Creamos un timeline de GSAP para gestionar la secuencia de animaciones
+      const tl = gsap.timeline({ paused: true });
+
+      // 6. Recorremos cada carácter para crear su animación
+      characters.forEach((char, index) => {
+        // Creamos un nuevo elemento <span> para cada letra
+        const span = document.createElement('span');
+        span.textContent = char;
+        // Inicializamos la opacidad en 0 para que la letra esté invisible al principio
+        span.style.opacity = 0;
+        typewriterElement.appendChild(span);
+        
+        // 7. Agregamos una animación al timeline para hacer aparecer cada <span>
+        tl.to(span, {
+          duration: 0.05, // La duración de la animación de una sola letra
+          opacity: 1, // Hacemos que la letra sea visible
+          ease: 'power1.inOut'
+        }, index * 0.05); // El tercer parámetro es la posición del timeline. Aquí,
+                          // lo escalamos por el índice para crear un efecto escalonado,
+                          // es decir, cada letra aparece después de la anterior.
+      });
+
+      // 8. Iniciamos el timeline para que la animación comience
+      tl.play();
+    });
+
+
+
+
+
+
+    // Animaciones iniciales al cargar
+    gsap.to(".neon-box", {
+      y: 0,
+      opacity: 1,
+      duration: 1.5,
+      ease: "power3.out"
+    });
+
+    // Animación por scroll para .card
+    gsap.utils.toArray(".card").forEach((card, i) => {
+      gsap.to(card, {
+        scrollTrigger: {
+          trigger: card,
+          start: "top 80%",
+        },
+        opacity: 1,
+        y: 0,
+        duration: 1,
+        delay: i * 0.2
+      });
+    });
+
+    // Efecto en imágenes de proyecto con cambio de color y opacidad
+    gsap.utils.toArray(".card img").forEach((img, i) => {
+      gsap.fromTo(img, {
+        filter: "hue-rotate(180deg)",
+        opacity: 0.3
+      }, {
+        scrollTrigger: {
+          trigger: img,
+          start: "top 90%",
+        },
+        filter: "hue-rotate(0deg)",
+        opacity: 1,
+        duration: 1.2,
+        ease: "power2.out"
+      });
+    });
+
+    // Animación lluvia arcoíris en el fondo
+    const rainbowContainer = document.querySelector('.rainbow-particles');
+    const colors = ['#f00', '#ff0', '#0f0', '#0ff', '#00f', '#f0f'];
+    for (let i = 0; i < 100; i++) {
+      const span = document.createElement('span');
+      span.style.left = Math.random() * 100 + '%';
+      span.style.animationDuration = 3 + Math.random() * 5 + 's';
+      span.style.background = colors[Math.floor(Math.random() * colors.length)];
+      rainbowContainer.appendChild(span);
+    }
+
+
+
+
+
+
+
+
+   
+
+  const viewer = document.querySelector('model-viewer');
+  let interactionTimeout;
+
+  const stopRotation = () => {
+    viewer.autoRotate = false;
+    clearTimeout(interactionTimeout);
+  };
+
+  const resumeRotation = () => {
+    interactionTimeout = setTimeout(() => {
+      viewer.autoRotate = true;
+    }, 2000); // espera 3 segundos antes de reanudar
+  };
+
+  viewer.addEventListener('mousedown', stopRotation);
+  viewer.addEventListener('touchstart', stopRotation);
+  viewer.addEventListener('mouseup', resumeRotation);
+  viewer.addEventListener('touchend', resumeRotation);
+
+
+  </script>
+</body>
+</html>

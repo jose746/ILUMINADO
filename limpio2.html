@@ -1,0 +1,1066 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title> Carro Exótico</title>
+    <!-- Bootstrap CSS desde CDN -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css">
+
+<!-- jQuery desde CDN -->
+<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+
+<!-- model-viewer desde CDN -->
+<script type="module" src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"></script>
+
+    <!-- Bootstrap CSS desde CDN -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css">
+
+<!-- jQuery desde CDN -->
+<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+
+<!-- model-viewer desde CDN -->
+<script type="module" src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: #000000;
+            color: white;
+            font-family: 'Arial', sans-serif;
+            overflow-x: hidden;
+        }
+
+        .typewriter-container {
+        margin-top: 0;
+        font-family: 'Orbitron', sans-serif;
+ 
+  font-size: 1.7rem;
+  color: rgb(255, 204, 0);
+  white-space: pre-wrap;
+  display: inline-block;
+  position: relative;
+  padding: 0.5rem;
+  line-height: 1.2;
+}
+
+.typewriter-cursor {
+  display: inline-block;
+  width: 2px;
+  height: 1.2em;
+  background-color: rgb(255, 123, 0);
+  animation: blink 1s step-end infinite;
+  vertical-align: bottom;
+  margin-left: 2px;
+}
+
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0; }
+}
+
+
+
+
+
+
+
+
+
+
+        /* Contenedor principal de la animación */
+        .animation-container {
+
+         
+            height: 500vh;
+            position: relative;
+            background: linear-gradient(180deg, #000000 0%, #000000 30%, #000000 70%, #000000 100%);
+        }
+
+        /* Viewport fijo para la animación */
+        .fixed-viewport {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            overflow: hidden;
+            z-index: 10;
+        }
+
+        /* Paisaje digital de fondo */
+        .digital-landscape {
+
+           /* background-image: url('fond4.jpg');
+           background-size: cover;       /* Ajusta la imagen para cubrir todo el contenedor 
+           background-position: center;  /* Centra la imagen *
+           background-repeat: no-repeat; /* Evita que se repita */
+         
+
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: 
+                linear-gradient(90deg, transparent 49%, #0f35bd86 50%, transparent 51%),
+                linear-gradient(0deg, transparent 49%, #00ffff11 50%, transparent 51%),
+                radial-gradient(circle at 20% 80%, #ff006622 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, #00ff9922 0%, transparent 50%),
+                radial-gradient(circle at 60% 60%, #9900ff22 0%, transparent 50%);
+            background-size: 60px 60px, 60px 60px, 300px 300px, 400px 400px, 250px 250px;
+            animation: landscapeShift 25s ease-in-out infinite;
+        }
+
+        @keyframes landscapeShift {
+            0%, 100% { background-position: 0 0, 0 0, 20% 80%, 80% 20%, 60% 60%; }
+            50% { background-position: 30px 30px, 30px 30px, 30% 70%, 70% 30%, 40% 70%; }
+        }
+
+        /* Grid animado de fondo mejorado */
+        .grid-overlay {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background-image: 
+
+
+               linear-gradient(rgba(255, 238, 0, 0.599) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(224, 224, 224, 0.186) 1px, transparent 1px),
+                linear-gradient(rgba(26, 26, 26, 0.359) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(173, 27, 173, 0.238) 1px, transparent 1px);
+            background-size: 40px 40px, 40px 40px, 120px 120px, 120px 120px;
+            animation: gridMove 20s linear infinite;
+        }
+
+        @keyframes gridMove {
+            0% { transform: translate(0, 0); }
+            100% { transform: translate(40px, 40px); }
+        }
+*/
+
+        /* Contenedor del carro */
+        .car-container {
+
+            position: absolute;
+            left: 5%;
+            top: 50%;
+            transform: translateY(-50%);
+            z-index: 20;
+            filter: drop-shadow(0 10px 20px rgba(0, 0, 0, 0.5));
+        }
+
+        /* SVG del carro exótico */
+       /* .exotic-car {
+            width: 200px;
+            height: auto;
+            transition: all 0.5s ease;
+        }*/
+
+        #exotic-car {
+margin-top: 200px;
+            width: 300px;
+            height: auto;
+            transition: all 0.5s ease-in-out;
+        }
+
+
+        /* Estados del carro durante el escaneo */
+        .car-container.scanned .exotic-car {
+            filter: 
+                drop-shadow(0 0 20px rgba(0, 255, 255, 0.8))
+                drop-shadow(0 0 40px rgba(0, 255, 255, 0.4))
+                hue-rotate(180deg)
+                brightness(1.3)
+                saturate(1.5);
+        }
+
+        /* Línea de escaneo mejorada */
+        .scan-line {
+            position: absolute;
+            width: 20px;
+            height: 120vh;
+            background: linear-gradient(
+                to bottom,
+                transparent 0%,
+                rgb(237, 6, 172) 10%,
+                rgb(7, 218, 255) 45%,
+                rgba(5, 188, 255, 0.775) 50%,
+                rgba(2, 255, 107, 0.553) 55%,
+                rgba(0, 255, 255, 0.3) 90%,
+                transparent 100%
+            );
+            left: -60px;
+            top: -10vh;
+            opacity: 0;
+            box-shadow: 
+                0 0 30px rgba(0, 255, 179, 0.946),
+                0 0 60px rgba(0, 128, 255, 0.897),
+                0 0 90px rgba(78, 254, 2, 0.941);
+            z-index: 30;
+        }
+
+        /* Efecto de partículas mejorado */
+        .particles {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 25;
+        }
+
+        .particle {
+            position: absolute;
+            width: 50px;
+            height: 50px;
+            background: radial-gradient(circle, #ff9b05 0%, transparent 70%);
+            border-radius: 50%;
+            opacity: 0;
+            box-shadow: 0 0 6px #ff0000;
+        }
+
+        /* Interior del carro - Dashboard futurista */
+        .car-interior {
+           
+         
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            opacity: 0;
+            z-index: 50;
+            background: radial-gradient(ellipse at  bottom, rgba(0, 0, 0, 0.9) 0%, rgba(0, 0, 0, 0.95) 70%);
+            pointer-events: none;
+        }
+
+        /* Dashboard */
+        .dashboard {
+          
+         
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 60%;
+            background: linear-gradient(
+                to top,
+                rgba(20, 30, 50, 0.9) 0%,
+                rgba(15, 25, 45, 0.7) 50%,
+                transparent 100%
+            );-radius: 50% 50% 0 0;
+        }
+
+        /* Volante */
+        .steering-wheel {
+           
+         
+            position: absolute;
+            bottom: 30%;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 200px;
+            height: 200px;
+            border: 8px solid #f9f9f9;
+            border-radius: 50%;
+            background: radial-gradient(circle, #222 30%, #4f4f4f 70%);
+            box-shadow: 
+                inset 0 0 20px rgba(0, 0, 0, 0.5),
+                0 0 30px rgba(0, 255, 255, 0.3);
+        }
+
+        .steering-wheel::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(45deg, #555, #777);
+            border-radius: 50%;
+            border: 3px solid #bebebe;
+            box-shadow: 0 0 15px rgba(0, 255, 255, 0.5);
+        }
+
+        /* Indicadores del dashboard */
+        .dashboard-indicators {
+           
+
+
+            position: absolute;
+            bottom: 40%;
+            width: 100%;
+            display: flex;
+            justify-content: space-around;
+            padding: 0 10%;
+        }
+
+        .indicator {
+
+            width: 80px;
+            height: 80px;
+            border: 3px solid #f6f6f6;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(0, 255, 255, 0.1) 0%, transparent 70%);
+            position: relative;
+            box-shadow: 0 0 20px rgb(255, 200, 0);
+        }
+
+        .indicator::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 2px;
+            height: 30px;
+            background: #e2e2e2;
+            border-radius: 2px;
+            transform-origin: bottom;
+            animation: indicatorSweep 2s ease-in-out infinite;
+            box-shadow: 0 0 10px #fff202;
+        }
+
+        @keyframes indicatorSweep {
+            0%, 100% { transform: translate(-50%, -50%) rotate(-45deg); }
+            50% { transform: translate(-50%, -50%) rotate(45deg); }
+        }
+
+        /* HUD elementos */
+        .hud-elements {
+            position: absolute;
+            top: 20%;
+            left: 0;
+            width: 100%;
+            height: 60%;
+        }
+
+        .hud-line {
+            position: absolute;
+            height: 2px;
+
+           /* background: linear-gradient(90deg, transparent, #ff0101, transparent);*/
+           background-color: #00ffff;
+            animation: hudScan 4s linear infinite;
+        }
+
+        .hud-line:nth-child(1) { top: 20%; width: 60%; left: 20%; animation-delay: 0s; }
+        .hud-line:nth-child(2) { top: 40%; width: 80%; left: 10%; animation-delay: 1s; }
+        .hud-line:nth-child(3) { top: 60%; width: 70%; left: 15%; animation-delay: 2s; }
+
+        @keyframes hudScan {
+            0%, 100% { opacity: 0.3; transform: scaleX(0.5); }
+            50% { opacity: 1; transform: scaleX(1); }
+        }
+
+        /* Contenido principal */
+        .main-content {
+
+
+            position: relative;
+            z-index: 5;
+            min-height: 100vh;
+            background: linear-gradient(135deg, #000000, #000000);
+            padding: 80px 20px;
+            opacity: 0;
+            transform: translateY(50px);
+        }
+
+        .content-wrapper {
+            max-width: 1200px;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        
+
+        @keyframes titleGradient {
+            0%, 100% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+        }
+
+
+        
+
+        .main-title {
+    font-size: 4rem;
+    font-weight: bold;
+    background: linear-gradient(45deg, #00ffff, #ff00ff, #ffff00);
+    background-size: 200% 200%;
+    background-clip: text; /* Propiedad estándar */
+    -webkit-background-clip: text; /* Compatibilidad con WebKit */
+    color: transparent; /* Reemplazo para -webkit-text-fill-color */
+    -webkit-text-fill-color: transparent; /* Compatibilidad con WebKit */
+    animation: titleGradient 3s ease-in-out infinite;
+    margin-bottom: 30px;
+}
+
+
+
+
+        .main-subtitle {
+            font-size: 1.5rem;
+            color: #0ffff7cf;
+            margin-bottom: 50px;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-top: 60px;
+        }
+
+        .feature-card {
+            box-shadow: 0 10px 25px rgba(4, 252, 165, 0.604), 
+            0 5px 10px rgba(10, 207, 241, 0.677);
+            background: rgba(0, 0, 0, 0.1);
+            backdrop-filter: blur(15px);
+            border-radius: 20px;
+            padding: 40px;
+            border: 2px solid rgba(255, 0, 230, 0.654);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .feature-card::before {
+            box-shadow: 0 10px 25px rgba(4, 252, 165, 0.604), 
+            0 5px 10px rgba(10, 207, 241, 0.677);
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(45deg, transparent, rgba(0, 0, 0, 0.859), transparent);
+            transform: rotate(45deg);
+            transition: transform 0.6s ease;
+        }
+
+        .feature-card:hover::before {
+            transform: rotate(45deg) translate(50%, 50%);
+        }
+
+        .feature-card:hover {
+            transform: translateY(-15px) scale(1.02);
+            box-shadow: 0 25px 50px rgba(0, 255, 255, 0.3);
+            border-color: rgb(255, 0, 0);
+        }
+
+        .feature-icon {
+            font-size: 3.5rem;
+            margin-bottom: 20px;
+            position: relative;
+            z-index: 2;
+        }
+
+        .feature-card h3 {
+            position: relative;
+            z-index: 2;
+            margin-bottom: 15px;
+            color: #00ffff;
+        }
+
+        .feature-card p {
+            position: relative;
+            z-index: 2;
+        }
+
+        /* Responsive Design */
+        
+        /* Mobile 360px */
+        @media (max-width: 360px) {
+            .exotic-car {
+                width: 180px;
+            }
+            
+            .steering-wheel {
+                width: 120px;
+                height: 120px;
+                bottom: 25%;
+            }
+            
+            .dashboard-indicators {
+                padding: 0 5%;
+            }
+            
+            .indicator {
+                width: 50px;
+                height: 50px;
+            }
+            
+            .main-title {
+                font-size: 2.2rem;
+            }
+            
+            .main-subtitle {
+                font-size: 1rem;
+            }
+            
+            .feature-grid {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+            
+            .feature-card {
+                padding: 25px;
+            }
+        }
+        
+        /* Mobile 480px */
+        @media (max-width: 480px) and (min-width: 361px) {
+            .exotic-car {
+                width: 220px;
+            }
+            
+            .steering-wheel {
+                width: 150px;
+                height: 150px;
+                bottom: 28%;
+            }
+            
+            .indicator {
+                width: 60px;
+                height: 60px;
+            }
+            
+            .main-title {
+                font-size: 2.8rem;
+            }
+            
+            .main-subtitle {
+                font-size: 1.2rem;
+            }
+        }
+        
+        /* Tablet 768px */
+        @media (max-width: 768px) and (min-width: 481px) {
+            .exotic-car {
+                width: 250px;
+            }
+            
+            .steering-wheel {
+                width: 170px;
+                height: 170px;
+            }
+            
+            .indicator {
+                width: 70px;
+                height: 70px;
+            }
+            
+            .main-title {
+                font-size: 3.2rem;
+            }
+            
+            .main-subtitle {
+                font-size: 1.3rem;
+            }
+            
+            .feature-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+        #exotic-car {
+            width: 300px;
+            height: auto;
+        }
+        .REGRESAR {
+            cursor: pointer;
+            border: solid 2px rgb(226, 226, 226);
+border-radius: 30px;
+            margin-bottom: 20px;
+            padding: 20px;
+            text-align: center;
+            color: #e2dfdf;
+            background-color: #000000;
+
+        }
+.REGRESAR:hover {
+    border: solid 2px rgb(219, 12, 98);
+    transition: all 0.7s ease-in-out;
+    background-color: #dedede;
+    color: #000000;
+}
+
+    </style>
+    
+</head>
+<body>
+
+
+    <div class="animation-container">
+        <div class="fixed-viewport">
+            <div class="digital-landscape"></div>
+            <div class="grid-overlay"></div>
+            
+            <div class="car-container" id="carContainer">
+                <!-- SVG del carro exótico -->
+
+
+
+<img src="amarillo.png" alt="car" id="exotic-car">
+
+
+
+
+
+
+
+
+
+
+
+
+
+                
+                <div class="scan-line" id="scanLine"></div>
+                <div class="particles" id="particles"></div>
+            </div>
+
+    <div 
+    class="typewriter-container" 
+    id="typewriter-text" 
+    data-text="BIENVENIDO a mi creación, soy el número 7
+    Felicidades, llegaste al futuro de tu vida.">
+    <span class="typewriter-cursor"></span>
+  </div>
+            
+            <!-- Interior del carro -->
+            <div class="car-interior" id="carInterior">
+                <div class="hud-elements">
+                    <div class="hud-line"></div>
+                    <div class="hud-line"></div>
+                    <div class="hud-line"></div>
+                </div>
+                
+                <div class="dashboard">
+                    <div class="dashboard-indicators">
+                        <div class="indicator"></div>
+                        <div class="indicator"></div>
+                        <div class="indicator"></div>
+                    </div>
+                    <div class="steering-wheel"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="main-content" id="mainContent">
+        <div class="content-wrapper">
+            <h1 class="main-title">Experiencia Futurista</h1>
+            <p class="main-subtitle">
+                Sumérgete en el futuro del transporte con nuestro carro exótico de última generación.
+                Una experiencia inmersiva que combina elegancia, tecnología y poder.
+            </p>
+            
+            <div class="feature-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">🏎️</div>
+                    <h3>Diseño Aerodinámico</h3>
+                    <p>Líneas esculpidas que desafían el viento, optimizadas para máximo rendimiento y elegancia en cada curva del camino.</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">⚡</div>
+                    <h3>Motor Híbrido Avanzado</h3>
+                    <p>Tecnología de propulsión híbrida que combina potencia explosiva con eficiencia energética para una experiencia de conducción sin igual.</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">🎯</div>
+                    <h3>Sistema de Navegación IA</h3>
+                    <p>Inteligencia artificial que aprende tus rutas favoritas y optimiza cada viaje para máxima comodidad y eficiencia.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <a href="principal.html">
+    <button class="REGRESAR">REGRESAR</button>
+</a>
+    <script>
+        gsap.registerPlugin(ScrollTrigger);
+        
+        const carContainer = document.getElementById('carContainer');
+        const scanLine = document.getElementById('scanLine');
+        const mainContent = document.getElementById('mainContent');
+        const carInterior = document.getElementById('carInterior');
+        const particlesContainer = document.getElementById('particles');
+        
+        // Crear partículas mejoradas
+        function createParticles() {
+            for (let i = 0; i < 50; i++) {
+                const particle = document.createElement('div');
+                particle.classList.add('particle');
+                particle.style.left = Math.random() * 400 + 'px';
+                particle.style.top = Math.random() * 200 + 'px';
+                particlesContainer.appendChild(particle);
+            }
+        }
+        
+        function animateParticles() {
+            const particles = document.querySelectorAll('.particle');
+            particles.forEach((particle, index) => {
+                gsap.fromTo(particle, 
+                    {
+                        opacity: 0,
+                        scale: 0,
+                        x: Math.random() * 100 - 50,
+                        y: Math.random() * 100 - 50
+                    },
+                    {
+                        opacity: 1,
+                        scale: Math.random() * 2 + 1,
+                        x: Math.random() * 200 - 100,
+                        y: Math.random() * 200 - 100,
+                        duration: 0.8,
+                        delay: index * 0.02,
+                        ease: "power2.out",
+                        yoyo: true,
+                        repeat: 1
+                    }
+                );
+            });
+        }
+        
+        createParticles();
+        
+        // Timeline principal mejorada
+        const mainTimeline = gsap.timeline({
+            scrollTrigger: {
+                trigger: ".animation-container",
+                start: "top top",
+                end: "bottom bottom",
+                scrub: 1,
+                pin: ".fixed-viewport",
+                onUpdate: (self) => {
+                    const progress = self.progress;
+                    
+                    // Fase 1: Movimiento del carro (0% - 35%)
+                    if (progress <= 0.35) {
+                        const moveProgress = progress / 0.35;
+                        gsap.set(carContainer, {
+                            x: moveProgress * (window.innerWidth * 0.4),
+                            rotationY: moveProgress * 5,
+                            z: moveProgress * 50
+                        });
+                    }
+                    
+                    // Fase 2: Escaneo futurista (35% - 65%)
+                    else if (progress > 0.35 && progress <= 0.65) {
+                        const scanProgress = (progress - 0.35) / 0.3;
+                        
+                        if (scanProgress <= 0.1) {
+                            gsap.set(scanLine, {
+                                opacity: scanProgress * 10,
+                                x: -60 + scanProgress * 100
+                            });
+                        } else if (scanProgress < 0.9) {
+                            gsap.set(scanLine, {
+                                opacity: 1,
+                                x: -60 + scanProgress * 400
+                            });
+                            
+                            if (scanProgress > 0.3) {
+                                carContainer.classList.add('scanned');
+                                if (scanProgress > 0.4 && scanProgress < 0.7) {
+                                    animateParticles();
+                                }
+                            }
+                        } else {
+                            gsap.set(scanLine, {
+                                opacity: 1 - (scanProgress - 0.9) * 10,
+                                x: -60 + scanProgress * 400
+                            });
+                        }
+                    }
+                    
+                    // Fase 3: Transición al interior (65% - 85%)
+                    else if (progress > 0.65 && progress <= 0.85) {
+                        const transitionProgress = (progress - 0.65) / 0.2;
+                        
+                        gsap.set(".fixed-viewport", {
+                            opacity: Math.max(0.3, 1 - transitionProgress * 0.7)
+                        });
+                        
+                        gsap.set(carInterior, {
+                            opacity: transitionProgress,
+                            scale: 0.8 + transitionProgress * 0.2
+                        });
+                    }
+                    
+                    // Fase 4: Experiencia interior y contenido final (85% - 100%)
+                    else if (progress > 0.85) {
+                        const finalProgress = (progress - 0.85) / 0.15;
+                        
+                        gsap.set(".fixed-viewport", {
+                            opacity: Math.max(0, 0.3 - finalProgress * 0.3)
+                        });
+                        
+                        gsap.set(carInterior, {
+                            opacity: Math.max(0, 1 - finalProgress * 1.5)
+                        });
+                        
+                        if (finalProgress > 0.3) {
+                            gsap.set(mainContent, {
+                                opacity: Math.min(1, (finalProgress - 0.3) / 0.7),
+                                y: Math.max(0, 80 - (finalProgress - 0.3) * 114)
+                            });
+                        }
+                    }
+                }
+            }
+        });
+        
+        // Animaciones adicionales para el contenido
+        gsap.fromTo(".feature-card", 
+            {
+                y: 80,
+                opacity: 0,
+                rotationX: -15
+            },
+            {
+                y: 0,
+                opacity: 1,
+                rotationX: 0,
+                duration: 1.2,
+                stagger: 0.3,
+                ease: "power3.out",
+                scrollTrigger: {
+                    trigger: ".feature-grid",
+                    start: "top 85%",
+                    end: "bottom 20%",
+                    toggleActions: "play none none reverse"
+                }
+            }
+        );
+        
+        // Efectos de hover mejorados para las tarjetas
+        document.querySelectorAll('.feature-card').forEach(card => {
+            card.addEventListener('mouseenter', () => {
+                gsap.to(card, {
+                    scale: 1.08,
+                    rotationY: 5,
+                    z: 50,
+                    duration: 0.4,
+                    ease: "power2.out"
+                });
+                
+                gsap.to(card.querySelector('.feature-icon'), {
+                    scale: 1.2,
+                    rotationZ: 10,
+                    duration: 0.3,
+                    ease: "back.out(1.7)"
+                });
+            });
+            
+            card.addEventListener('mouseleave', () => {
+                gsap.to(card, {
+                    scale: 1,
+                    rotationY: 0,
+                    z: 0,
+                    duration: 0.4,
+                    ease: "power2.out"
+                });
+                
+                gsap.to(card.querySelector('.feature-icon'), {
+                    scale: 1,
+                    rotationZ: 0,
+                    duration: 0.3,
+                    ease: "power2.out"
+                });
+            });
+        });
+        
+        // Animación del volante en el interior
+        gsap.to(".steering-wheel", {
+            rotationZ: 5,
+            duration: 4,
+            ease: "sine.inOut",
+            yoyo: true,
+            repeat: -1
+        });
+        
+        // Efectos de sonido simulados con vibraciones visuales
+        function createEngineEffect() {
+            gsap.to(".exotic-car", {
+                x: "+=2",
+                duration: 0.1,
+                yoyo: true,
+                repeat: 5,
+                ease: "power2.inOut"
+            });
+        }
+        
+        // Optimización para dispositivos móviles
+        function optimizeForMobile() {
+            if (window.innerWidth <= 768) {
+                // Reducir complejidad de animaciones en móvil
+                gsap.set(".grid-overlay", {
+                    animationDuration: "30s"
+                });
+                
+                // Simplificar partículas en móvil
+                const particles = document.querySelectorAll('.particle');
+                if (particles.length > 20) {
+                    for (let i = 20; i < particles.length; i++) {
+                        particles[i].remove();
+                    }
+                }
+            }
+        }
+        
+        // Efectos adicionales durante el escaneo
+        function enhancedScanEffect() {
+            // Efecto de ondas de energía
+            const energyWaves = document.createElement('div');
+            energyWaves.style.cssText = `
+                position: absolute;
+                width: 300px;
+                height: 300px;
+                border: 2px solid rgba(0, 255, 255, 0.5);
+                border-radius: 50%;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+                pointer-events: none;
+                z-index: 15;
+            `;
+            carContainer.appendChild(energyWaves);
+            
+            gsap.fromTo(energyWaves, 
+                { scale: 0, opacity: 1 },
+                { 
+                    scale: 2, 
+                    opacity: 0, 
+                    duration: 2, 
+                    ease: "power2.out",
+                    onComplete: () => energyWaves.remove()
+                }
+            );
+        }
+        
+        // Añadir efecto de scan mejorado cuando se activa
+        ScrollTrigger.create({
+            trigger: ".animation-container",
+            start: "45%",
+            end: "50%",
+            onEnter: () => enhancedScanEffect(),
+            onLeaveBack: () => enhancedScanEffect()
+        });
+        
+        // Efectos de luces ambientales
+        function createAmbientLights() {
+            const colors = ['#ff0066', '#00ff99', '#6600ff', '#ffff00'];
+            colors.forEach((color, index) => {
+                const light = document.createElement('div');
+                light.style.cssText = `
+                    position: absolute;
+                    width: 100px;
+                    height: 100px;
+                    background: radial-gradient(circle, ${color}22 0%, transparent 70%);
+                    border-radius: 50%;
+                    top: ${20 + index * 20}%;
+                    left: ${10 + index * 20}%;
+                    pointer-events: none;
+                    z-index: 5;
+                `;
+                document.querySelector('.digital-landscape').appendChild(light);
+                
+                gsap.to(light, {
+                    x: Math.random() * 200 - 100,
+                    y: Math.random() * 200 - 100,
+                    scale: Math.random() * 2 + 0.5,
+                    duration: 8 + Math.random() * 4,
+                    ease: "sine.inOut",
+                    yoyo: true,
+                    repeat: -1
+                });
+            });
+        }
+        
+        createAmbientLights();
+        
+        // Llamar optimizaciones
+        window.addEventListener('load', optimizeForMobile);
+        window.addEventListener('resize', optimizeForMobile);
+        
+        // Efecto de carga inicial
+        gsap.fromTo(".exotic-car", 
+            { 
+                opacity: 0, 
+                scale: 0.8,
+                rotationY: -20 
+            },
+            { 
+                opacity: 1, 
+                scale: 1,
+                rotationY: 0,
+                duration: 1.5, 
+                ease: "power3.out",
+                delay: 0.5
+            }
+        );
+        
+        // Parallax effect para el fondo
+        gsap.to(".digital-landscape", {
+            backgroundPosition: "100% 100%",
+            ease: "none",
+            scrollTrigger: {
+                trigger: ".animation-container",
+                start: "top top",
+                end: "bottom top",
+                scrub: true
+            }
+        });
+        
+
+        document.addEventListener('DOMContentLoaded', () => {
+  const container = document.getElementById('typewriter-text');
+  const cursor = container.querySelector('.typewriter-cursor');
+  const text = container.getAttribute('data-text');
+  const tl = gsap.timeline({ paused: true });
+
+  // Limpia el contenedor y coloca el cursor al inicio
+  container.innerHTML = '';
+  container.appendChild(cursor);
+
+  const spans = [];
+
+  text.split('').forEach((char, index) => {
+    const span = document.createElement('span');
+    span.textContent = char;
+    span.style.opacity = 0;
+    container.insertBefore(span, cursor); // Inserta antes del cursor
+    spans.push(span);
+
+    tl.to(span, {
+      duration: 0.05,
+      opacity: 1,
+      ease: 'power1.inOut',
+      onComplete: () => {
+        container.insertBefore(cursor, span.nextSibling); // Mueve el cursor justo después
+      }
+    }, index * 0.05);
+  });
+
+  tl.play();
+});
+
+
+
+
+
+    </script>
+</body>
+</html>
